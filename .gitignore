@@ -1,3 +1,6 @@
 .idea/*
-test_fodder
+test
 *.pyc
+htmlcov
+.coverage
+mocks
