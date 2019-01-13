@@ -1,14 +1,14 @@
-# horus
+## Horus
 Watches python code and creates test cases
 
 
-# Install
+### Install
 
 ```
 $ git clone https://github.com/AmreshVenugopal/horus.git
 ```
 
-# Usage
+### Usage
 ```
 $ python main.py --path=$(pwd)
 ```
