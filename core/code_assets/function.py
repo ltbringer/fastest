@@ -2,6 +2,7 @@ import re
 from core.code_assets.arguments import get_args
 from core.code_assets.variables import get_variables
 from core.code_assets.return_value import get_return_values
+from core.code_assets.naive_case_detector import get_naive_case
 
 
 def get_functions(page):
@@ -26,6 +27,7 @@ def get_functions(page):
             function_object['str'] = '\n'.join(statements[function_body_start: statement_number])
             function_object['returns'] = get_return_values(function_object['str'])
             function_object['vars'] = get_variables(function_object['str'], function_object['args'])
+            function_object['tests'] = get_naive_case(function_object['str'])
             function_map.append(function_object)
             function_object = {}
             function_running = False
