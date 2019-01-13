@@ -7,7 +7,6 @@ def get_current_directory():
 
 
 def read_file(dir_path, file_path):
-    print(os.path.join(dir_path, file_path))
     goal_dir = os.path.join(dir_path, file_path)
     with open(os.path.abspath(goal_dir), 'r') as fp:
         contents = fp.read()
