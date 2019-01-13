@@ -1,4 +1,9 @@
+import uuid
 from core.type import type_inference
+
+
+def case_generator():
+    return str(uuid.uuid4()).upper().replace("-", "")[0:10]
 
 
 def create_var_type_test_case(function_obj, variable_name, statements):
@@ -72,3 +77,16 @@ def create_return_type_test_case(function_obj, return_values, statements):
         self.assertIs({function}({args}), {type})
         
 """.format(function=function_name, args=args, variable=return_value, type=expected_type)
+
+
+def create_naive_test_case(function_object, test):
+    return """
+    def test__{function_name}__{case_id}(self):
+        self.assertEqual({function}, {value})
+
+    """.format(
+        function_name=function_object['name'],
+        case_id=case_generator(),
+        function=test['from'],
+        value=test['expect']
+    )
