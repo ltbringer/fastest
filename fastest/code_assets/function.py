@@ -24,7 +24,7 @@ def get_functions(page):
     function_running = False
     function_object = {}
     function_body_start = 0
-    for statement_number in range(len(statements)):
+    for statement_number, _ in enumerate(statements):
         if function_running is False:
             function_finder = re.match(r'def ((\w[A-Za-z_]*[^\(])(\(.*[^:]\)))', statements[statement_number])
             function_body_start = statement_number
