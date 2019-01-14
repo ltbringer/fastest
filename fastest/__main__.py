@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(description='Create test cases automatically')
 parser.add_argument('--path', required=True, help='Project root, use $(pwd) to be sure')
 parser.add_argument('--source',required=True, help='Modules to check coverage for')
 parser.add_argument('--watch', help='Comma separated names of folders that should be watched')
-parser.add_argument('--unsee', help='Comma separated names of folders that should NOT be watched')
+parser.add_argument('--exclude', help='Comma separated names of folders that should NOT be watched')
 args = parser.parse_args()
 
 
