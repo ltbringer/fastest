@@ -1,4 +1,4 @@
-## Fastest
+# Fastest
 Creates unit tests from examples in the docstring and more
 
 
@@ -46,4 +46,18 @@ within `Class test_<file>_<function>(self)`
 6. Print the link to the coverage reports' index.html.
 
 
-
+### How to make best use of Fastest
+1. Keep your `functions` light:
+    - Be paranoid about separations of concern.
+    - Too many conditions are a hint that you might need another function
+    - Complex loops and if else are not scalable code, a single mistake would 
+    take that tower down and feature additions would involve someone going through 
+    that brain-teaser.
+2. Use libraries but wrap them with your own functions. Like: Use `requests` or the inevitable database? 
+    wrap them with your own functions anyway.
+    - Helps with adding customizations in one place (configuring things like base url, and similar configs)
+    - Helps mocking so that entire code-base can be unit tested.
+3. Docstrings may get outdated if your work pace is faster, but adding examples now 
+    would help you create tests which prevents your descriptions from going stale,
+    either the tests fail and the description is outdated else everything is good.
+    
