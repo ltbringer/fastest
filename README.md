@@ -25,8 +25,11 @@ python project:
 3. Creates unittests if a function has examples in its docstrings like so:
 
 ```python
-# some_module.utils.py
-
+# .
+# ├──module_a
+# ├──module_b
+#    └── utils.py
+#
 def add(x, y):
     """
     example: add(3, 4) -> 7 #
@@ -34,7 +37,9 @@ def add(x, y):
     return x + y
 ```
 
-This will create a unittest in the `test` directory, `assertEqual(add(3, 4), 7)`.
+This will create a unittest in the `test` directory, `assertEqual(add(3, 4), 7)`
+within `Class test_<file>_<function>(self)` 
+(for the given directory, tree: `Class test_<file>_<function>(self)`)
 
 4. Runs all tests that are created.
 5. Creates a coverage report (in html format).
