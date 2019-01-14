@@ -14,11 +14,7 @@ def build(function_objects, src_file_path, base_path):
             fp.write('from {} import {}\n'.format(deps_import, function_object['name']))
 
         for function_object in function_objects:
-            fp.write(
-                """\n
-class Test_{}_{}(unittest.TestCase):
-           
-                """.format(root_module_name, function_object['name'])
-            )
+            fp.write("""\n
+class Test_{}_{}(unittest.TestCase):""".format(root_module_name, function_object['name']))
             for test in function_object['tests']:
                 fp.write(f.create_naive_test_case(function_object, test))

@@ -92,8 +92,6 @@ def create_naive_test_case(function_object, test):
     def test__{function_name}__{case_id}(self):
         {testers_notes}
         self.assertEqual({function}, {value})
-        
-
     """.format(
         function_name=function_object['name'],
         case_id=case_generator(),
