@@ -37,14 +37,6 @@ class Test_type_usage_patterns_used_as_int(unittest.TestCase):
     
 
 class Test_type_usage_patterns_used_as_str(unittest.TestCase):
-           
-                
-    def test__used_as_str__A43FCCD19B(self):
-        
-        self.assertEqual(used_as_str("string_var = 'something'", "string_var"), 1)
-        
-
-    
     def test__used_as_str__014F1AB308(self):
         
         self.assertEqual(used_as_str("string_var + 'something'", "string_var"), 1)
