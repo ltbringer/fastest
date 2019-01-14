@@ -1,6 +1,9 @@
 # Fastest
 Creates unit tests from examples in the docstring and more
 
+---
+[![Coverage Status](https://coveralls.io/repos/github/AmreshVenugopal/fastest/badge.svg?branch=master)](https://coveralls.io/github/AmreshVenugopal/fastest?branch=master)
+
 
 ### Install
 
@@ -60,8 +63,8 @@ within `Class test_<file>_<function>(self)`
 3. Docstrings may get outdated if your work pace is faster, but adding examples now 
     would help you create tests which prevents your descriptions from going stale,
     either the tests fail and the description is outdated else everything is good.
-    
-    
+
+
 ### Fun facts
 1. Fastest uses itself for its nearly automated tests and documentation.
 2. Excluding the files that are to be changed infrequently, Fastest has 100% code coverage.
