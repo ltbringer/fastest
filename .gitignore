@@ -5,3 +5,4 @@ htmlcov
 mocks
 dist
 build
+.cache
