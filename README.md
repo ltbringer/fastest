@@ -37,10 +37,10 @@ python project:
 #    └── utils.py
 #
 def add(x, y):
- """
- example: add(3, 4) -> 7 #
- """
- return x + y
+    """
+    example: add(3, 4) -> 7 #
+    """
+    return x + y
 ```
 
  This will create a unittest in the `test` directory, `assertEqual(add(3, 4), 7)`
