@@ -7,3 +7,4 @@ dist
 build
 .cache
 .coveralls.yml
+.scrutinizer_token

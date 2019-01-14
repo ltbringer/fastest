@@ -5,7 +5,7 @@ import subprocess
 
 from fastest.io.read_file import read_file
 from fastest.code_assets.function import get_functions
-from fastest.compiler import compile
+from fastest.compiler import compile_tests
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
@@ -19,6 +19,7 @@ args = parser.parse_args()
 
 
 def main():
+
 
     if not os.path.exists('./test'):
         os.mkdir('./test')
@@ -50,7 +51,7 @@ def main():
                             'core' not in event.src_path:
                 page = read_file(args.path, event.src_path)
                 functions = get_functions(page)
-                compile.build(functions, event.src_path, args.path)
+                compile_tests.build(functions, event.src_path, args.path)
 
                 command = ['test.{}'.format(test_file) for test_file in test_files]
                 subprocess.call(['coverage', 'run', '--source', args.source, '-m', 'unittest'] + command)
