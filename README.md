@@ -4,6 +4,7 @@ Creates unit tests from examples in the docstring and more
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ae01d1185a9b4e93be06e6faf894448d)](https://app.codacy.com/app/AmreshVenugopal/fastest?utm_source=github.com&utm_medium=referral&utm_content=AmreshVenugopal/fastest&utm_campaign=Badge_Grade_Dashboard)
 [![Build_Status](https://travis-ci.org/AmreshVenugopal/fastest.svg?branch=master)](https://travis-ci.org/AmreshVenugopal/fastest)
 [![Coverage Status](https://coveralls.io/repos/github/AmreshVenugopal/fastest/badge.svg?branch=master)](https://coveralls.io/github/AmreshVenugopal/fastest?branch=master)
+[![Current_Version](https://img.shields.io/pypi/v/nine.svg)](https://pypi.org/project/fastest/)
 
 ## Install
 
@@ -27,18 +28,18 @@ python project:
  2. Watches `.py` files for changes.
  3. Creates unittests if a function has examples in its docstrings like so:
 
- ```python
- # .
- # ├──module_a
- # ├──module_b
- #    └── utils.py
- #
- def add(x, y):
-     """
-     example: add(3, 4) -> 7 #
-     """
-     return x + y
- ```
+```python
+# .
+# ├──module_a
+# ├──module_b
+#    └── utils.py
+#
+def add(x, y):
+ """
+ example: add(3, 4) -> 7 #
+ """
+ return x + y
+```
 
  This will create a unittest in the `test` directory, `assertEqual(add(3, 4), 7)`
  within `Class test_<file>_<function>(self)` 
@@ -50,18 +51,19 @@ python project:
 
 ## How to make best use of Fastest
  1. Keep your `functions` light:
-    - Be paranoid about separations of concern.
+    - Be paranoid about separation of concerns.
     - Too many conditions are a hint that you might need another function.
-    - Complex loops and if else are not scalable code, a single mistake would 
+    - Complex loops and `if-else` are not scalable code, a single mistake would 
     take that tower down and feature additions would involve someone going through 
     that brain-teaser.
  2. Use libraries but wrap them with your own functions. Like: Use `requests` or the inevitable database? 
-    wrap them with your own functions anyway.
+    wrap them with your own functions.
     - Helps with adding customizations in one place (configuring things like base url, and similar configs)
     - Helps mocking so that entire code-base can be unit tested.
- 3. Docstrings may get outdated if your work pace is faster, but adding examples now 
-    would help you create tests which prevents your descriptions from going stale,
-    either the tests fail and the description is outdated else everything is good.
+ 3. Docstrings may get outdated if your work pace is fast enough to 
+    maintain quality documentation, but adding examples now would help you create 
+    tests which prevents your descriptions from going stale, **either the tests fail 
+    AND the description is outdated OR else everything is fine**.
 
 ## Fun facts
  1. Fastest uses itself for its nearly automated tests and documentation.
