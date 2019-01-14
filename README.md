@@ -70,4 +70,4 @@ def add(x, y):
 ## Fun facts
  1. Fastest uses itself for its nearly automated tests and documentation.
  2. Excluding the files that are to be changed infrequently, Fastest has 100% code coverage.
- 3. Fastest has two of its 32 test cases still failing, a testimony to itself.
+ 3. Fastest has 2/32 test cases failing, a testimony to its ability to find bugs.
