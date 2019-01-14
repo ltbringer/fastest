@@ -62,7 +62,7 @@ def get_loop_complexity(function_body):
     """
     loop_indents = count_loop_indents(function_body)
     complexity = 0
-    for i in range(len(loop_indents)):
+    for i, _ in enumerate(loop_indents):
         if len(loop_indents) > i + 1 and loop_indents[i] < loop_indents[i + 1]:
             complexity += 1
     return CURRENT_CONTROL_COMPLEXITY_THRESHOLD < complexity, complexity
