@@ -10,6 +10,13 @@ type_map    = ['int', 'str', 'list', 'tuple', 'dict']
 
 
 def infer(variable, statements):
+    """
+    example: infer("list_var", "def fn():\n\tlist_var = [1]") -> ['list'] #
+    example: infer("some_var", "def fn():\n\tsome_var + some_other") -> ['int', 'str'] #
+    :param variable:
+    :param statements:
+    :return:
+    """
     statements = statements.split('\n')
     statements = statements[1:]
     type_chances = [0] * 5

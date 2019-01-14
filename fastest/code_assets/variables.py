@@ -3,6 +3,12 @@ from fastest.code_assets import keywords
 
 
 def get_variables(statements, arguments):
+    """
+    example: get_variables("def fn(arg1, arg2):\n\tc = 4\n\treturn arg1 + arg2", ["arg1", "arg2"]) -> ["c"] #
+    :param statements:
+    :param arguments:
+    :return:
+    """
     statements = statements.split('\n')
     statements = statements[1:]
     statements = ' '.join(statements)

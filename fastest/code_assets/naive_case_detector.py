@@ -6,6 +6,16 @@ OUTPUT = 1
 
 
 def get_naive_case(statements):
+    """
+    example: get_naive_case("example: fn_do_work() -> 8 #") -> [{
+        "from": "fn_do_work()",
+        "expect": 8
+    }]
+    #
+
+    :param statements:
+    :return:
+    """
     function_call_pattern = r'example: [\s\S]+?(?=->)'
     total_pattern = r'example: [\s\S]+?(?=#)'
     function_call_matches = re.findall(function_call_pattern, statements, re.M)

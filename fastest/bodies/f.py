@@ -90,9 +90,9 @@ def create_naive_test_case(function_object, test):
 
     return """
     def test__{function_name}__{case_id}(self):
+        {testers_notes}
         self.assertEqual({function}, {value})
         
-    {testers_notes}
 
     """.format(
         function_name=function_object['name'],

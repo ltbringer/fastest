@@ -1,27 +1,27 @@
 def on_depth(depth):
     return """
-    testers notes:
-    --------------
-    Your function has {depth} lines of code, it is strongly advised to break them
-    when they are doing too many operations.
+    # testers notes:
+    # --------------
+    # Your function has {depth} lines of code, it is strongly advised to break them
+    # when they are doing too many operations.
     """.format(depth=depth)
 
 
 def on_conditional_complexity(condition_complexity):
     return """
-    testers notes:
-    --------------
-    Your function has {condition_complexity} conditions, it is strongly advised to convert them
-    to individual functions. It is likely that they are doing different tasks.
+    # testers notes:
+    # --------------
+    # Your function has {condition_complexity} conditions, it is strongly advised to convert them
+    # to individual functions. It is likely that they are doing different tasks.
     """.format(condition_complexity=condition_complexity)
 
 
 def on_control_overuse(control_overuse):
     return """
-    testers notes:
-    --------------
-    Your function has {control_overuse} number of nested loops!!
-    please try to find a better way, there has to be one.
+    # testers notes:
+    # --------------
+    # Your function has {control_overuse} number of nested loops!!
+    # please try to find a better way, there has to be one.
     """.format(control_overuse=control_overuse)
 
 
