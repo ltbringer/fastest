@@ -39,7 +39,7 @@ def add(x, y):
 
 This will create a unittest in the `test` directory, `assertEqual(add(3, 4), 7)`
 within `Class test_<file>_<function>(self)` 
-(for the given directory, tree: `Class test_<file>_<function>(self)`)
+(for the given directory, tree: `Class test_utils_add(self)`)
 
 4. Runs all tests that are created.
 5. Creates a coverage report (in html format).
