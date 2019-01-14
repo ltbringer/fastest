@@ -6,7 +6,7 @@ Creates unit tests from examples in the docstring and more
 [![Build_Status](https://travis-ci.org/AmreshVenugopal/fastest.svg?branch=master)](https://travis-ci.org/AmreshVenugopal/fastest)
 [![Coverage Status](https://coveralls.io/repos/github/AmreshVenugopal/fastest/badge.svg?branch=master)](https://coveralls.io/github/AmreshVenugopal/fastest?branch=master)
 [![Current_Version](https://img.shields.io/pypi/v/nine.svg)](https://pypi.org/project/fastest/)
-
+[![Python_Version](https://img.shields.io/pypi/pyversions/fastest.svg)](https://pypi.org/project/fastest/)
 
 ## Install
 
