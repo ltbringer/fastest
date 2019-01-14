@@ -1,0 +1,7 @@
+[run]
+omit =
+    **fastest/bodies**
+    **fastest/compiler**
+    **fastest/io**
+    **fastest/__main__.py
+    **fastest/code_assets/keywords.py
