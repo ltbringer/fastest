@@ -4,3 +4,5 @@ test
 htmlcov
 .coverage
 mocks
+dist
+build
