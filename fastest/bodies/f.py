@@ -1,5 +1,7 @@
 import uuid
 from fastest.type import type_inference
+from fastest import code_style
+from fastest.bodies.testers_notes import get_testers_notes
 
 
 def case_generator():
@@ -80,13 +82,22 @@ def create_return_type_test_case(function_obj, return_values, statements):
 
 
 def create_naive_test_case(function_object, test):
+    function_too_long = code_style.is_function_too_long(function_object['str'])
+    has_too_many_conditions = code_style.has_too_many_if_statements(function_object['str'])
+    control_structure_overuse = code_style.get_loop_complexity(function_object['str'])
+
+    testers_notes = get_testers_notes(function_too_long, has_too_many_conditions, control_structure_overuse)
+
     return """
     def test__{function_name}__{case_id}(self):
         self.assertEqual({function}, {value})
+        
+    {testers_notes}
 
     """.format(
         function_name=function_object['name'],
         case_id=case_generator(),
         function=test['from'],
-        value=test['expect']
+        value=test['expect'],
+        testers_notes=testers_notes
     )
