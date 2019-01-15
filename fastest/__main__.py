@@ -1,5 +1,6 @@
 import argparse
 import os
+import fnmatch
 import time
 import subprocess
 
@@ -13,12 +14,11 @@ from watchdog.events import PatternMatchingEventHandler
 parser = argparse.ArgumentParser(description='Create test cases automatically')
 parser.add_argument('--path', required=True, help='Project root, use $(pwd) to be sure')
 parser.add_argument('--source',required=False, help='Modules to check coverage for')
-parser.add_argument('--watch', help='Comma separated names of folders that should be watched', default=['*.py'])
 parser.add_argument(
     '--exclude',
-    help='Comma separated names (supports  * as wildcard) of folders that should NOT be watched',
-    default=['test/*', '__pycache__', '*.pyc']
+    help='Comma separated names of files/dirs that should NOT be watched',
 )
+
 args = parser.parse_args()
 
 
@@ -27,12 +27,15 @@ def main():
 
     if not os.path.exists('./test'):
         os.mkdir('./test')
+        open('./test/__init__.py', 'a')
 
     report_path = os.path.abspath(os.path.join(args.path, 'htmlcov/index.html'))
 
     class PyFileHandler(PatternMatchingEventHandler):
-        patterns = args.watch
-        ignore_patterns = args.exclude
+        patterns = ['*.py']
+        exclude_files = args.exclude if args.exclude is not None else ''
+        ignore_patterns = [path.strip() for path in exclude_files.split(',')]
+        ignore_patterns += ['test/*', '__pycache__', '*.pyc', '*__test.py']
 
         def process(self, event):
             """
@@ -50,20 +53,22 @@ def main():
                 for test_file in os.listdir('./test') if '.pyc' not in test_file and '__pycache__' not in test_file
             ]
 
-            if '__test.py' not in event.src_path and \
-                    os.path.isfile(event.src_path):
-                page = read_file(args.path, event.src_path)
-                functions = get_functions(page)
-                compile_tests.build(functions, event.src_path, args.path)
+            for ignored_pattern in self.ignore_patterns:
+                if fnmatch.fnmatch(event.src_path.replace(args.path + '/', ''), ignored_pattern):
+                    return
 
-                command = ['test.{}'.format(test_file) for test_file in test_files]
-                if (args.source):
-                    subprocess.call(['coverage', 'run', '--source', args.source, '-m', 'unittest'] + command)
-                else:
-                    subprocess.call(['coverage', 'run', '-m', 'unittest'] + command)
-                subprocess.call(['coverage', 'report'])
-                subprocess.call(['coverage', 'html'])
-                print(report_path)
+            page = read_file(args.path, event.src_path)
+            functions = get_functions(page)
+            compile_tests.build(functions, event.src_path, args.path)
+
+            command = ['test.{}'.format(test_file) for test_file in test_files]
+            if (args.source):
+                subprocess.call(['pytest', 'run', '--source', args.source, '-m', 'unittest'] + command)
+            else:
+                subprocess.call(['coverage', 'run', '-m', 'unittest'] + command)
+            subprocess.call(['coverage', 'report'])
+            subprocess.call(['coverage', 'html'])
+            print(report_path)
 
         def on_modified(self, event):
             self.process(event)
