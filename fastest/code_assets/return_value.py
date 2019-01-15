@@ -8,7 +8,7 @@ def get_return_values(statements):
     :param statements:
     :return:
     """
-    return_values = re.findall(r'return (.*)', statements)
+    return_values = re.findall(r'return [\s\S]+?(?=\n)', statements)
     if len(return_values) > 0:
         return return_values
     else:
