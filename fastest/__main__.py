@@ -13,8 +13,12 @@ from watchdog.events import PatternMatchingEventHandler
 parser = argparse.ArgumentParser(description='Create test cases automatically')
 parser.add_argument('--path', required=True, help='Project root, use $(pwd) to be sure')
 parser.add_argument('--source',required=False, help='Modules to check coverage for')
-parser.add_argument('--watch', help='Comma separated names of folders that should be watched')
-parser.add_argument('--exclude', help='Comma separated names of folders that should NOT be watched')
+parser.add_argument('--watch', help='Comma separated names of folders that should be watched', default=['*.py'])
+parser.add_argument(
+    '--exclude',
+    help='Comma separated names (supports  * as wildcard) of folders that should NOT be watched',
+    default=['test/*', '__pycache__', '*.pyc']
+)
 args = parser.parse_args()
 
 
@@ -27,7 +31,8 @@ def main():
     report_path = os.path.abspath(os.path.join(args.path, 'htmlcov/index.html'))
 
     class PyFileHandler(PatternMatchingEventHandler):
-        patterns = ["*.py"]
+        patterns = args.watch
+        ignore_patterns = args.exclude
 
         def process(self, event):
             """
@@ -40,13 +45,10 @@ def main():
             """
 
             print(event.src_path, event.event_type)
-
             test_files = [
                 test_file.replace('.py', '')
-                for test_file in os.listdir('./test') if test_file not in ['__init__c', '__pycache__']
+                for test_file in os.listdir('./test') if '.pyc' not in test_file and '__pycache__' not in test_file
             ]
-
-            print(test_files)
 
             if '__test.py' not in event.src_path and \
                     os.path.isfile(event.src_path):
