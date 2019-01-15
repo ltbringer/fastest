@@ -12,22 +12,17 @@ from watchdog.events import PatternMatchingEventHandler
 
 parser = argparse.ArgumentParser(description='Create test cases automatically')
 parser.add_argument('--path', required=True, help='Project root, use $(pwd) to be sure')
-parser.add_argument('--source',required=True, help='Modules to check coverage for')
+parser.add_argument('--source',required=False, help='Modules to check coverage for')
 parser.add_argument('--watch', help='Comma separated names of folders that should be watched')
 parser.add_argument('--exclude', help='Comma separated names of folders that should NOT be watched')
 args = parser.parse_args()
 
 
 def main():
-
+    print('Monitoring started...')
 
     if not os.path.exists('./test'):
         os.mkdir('./test')
-
-    test_files = [
-        test_file.replace('.py', '')
-        for test_file in os.listdir('./test')
-    ]
 
     report_path = os.path.abspath(os.path.join(args.path, 'htmlcov/index.html'))
 
@@ -46,15 +41,24 @@ def main():
 
             print(event.src_path, event.event_type)
 
+            test_files = [
+                test_file.replace('.py', '')
+                for test_file in os.listdir('./test') if test_file not in ['__init__c', '__pycache__']
+            ]
+
+            print(test_files)
+
             if '__test.py' not in event.src_path and \
-                    os.path.isfile(event.src_path) and \
-                            'core' not in event.src_path:
+                    os.path.isfile(event.src_path):
                 page = read_file(args.path, event.src_path)
                 functions = get_functions(page)
                 compile_tests.build(functions, event.src_path, args.path)
 
                 command = ['test.{}'.format(test_file) for test_file in test_files]
-                subprocess.call(['coverage', 'run', '--source', args.source, '-m', 'unittest'] + command)
+                if (args.source):
+                    subprocess.call(['coverage', 'run', '--source', args.source, '-m', 'unittest'] + command)
+                else:
+                    subprocess.call(['coverage', 'run', '-m', 'unittest'] + command)
                 subprocess.call(['coverage', 'report'])
                 subprocess.call(['coverage', 'html'])
                 print(report_path)
