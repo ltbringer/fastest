@@ -16,7 +16,7 @@ $ pip install fastest
 
 ## Usage
 ```bash
-$ python main.py --path=$(pwd) --source=<source>
+$ fastest --path=$(pwd) --source=<source>
 ```
 where `path` is the the project root, and [`source`](https://coverage.readthedocs.io/en/coverage-4.3.4/source.html#source) 
 is same as the value passed to the command `coverage run -m unittest --source=$source test`
