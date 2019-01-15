@@ -1,5 +1,5 @@
 # Fastest
-Creates unit tests from examples in the docstring and more
+Creates unit tests from examples in the docstring and more (Currently supporting unix based systems only)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ae01d1185a9b4e93be06e6faf894448d)](https://app.codacy.com/app/AmreshVenugopal/fastest?utm_source=github.com&utm_medium=referral&utm_content=AmreshVenugopal/fastest&utm_campaign=Badge_Grade_Dashboard)
 [![Scrutinizer_Badge](https://scrutinizer-ci.com/g/AmreshVenugopal/fastest/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AmreshVenugopal/fastest/)
@@ -18,7 +18,7 @@ $ pip install fastest
 ```bash
 $ fastest --path=$(pwd)
 ```
-creates coverage for entire project
+watches all .py files and creates coverage for entire project.
 
 ```bash
 $ fastest --path=$(pwd) --source=py_module
@@ -26,6 +26,11 @@ $ fastest --path=$(pwd) --source=py_module
 where `path` is the the project root, and [`source`](https://coverage.readthedocs.io/en/coverage-4.3.4/source.html#source) 
 is same as the value passed to the command `coverage run -m unittest --source=$source test`
 
+```bash
+$ fastest --path=$(pwd) --exclude=dont_check_this_dir/*,these__*.py
+```
+To exclude files/folders use `--exclude` and the file watcher will ignore them.
+The `test/*` folder that `faster` creates is excluded by default.
 
 ## Introduction
 Things that happen when you run `python main.py --path=$(pwd)`:
@@ -42,7 +47,9 @@ Things that happen when you run `python main.py --path=$(pwd)`:
 #
 def add(x, y):
     """
-    example: add(3, 4) -> 7 #
+    ----
+    examples:
+    1) add(3, 4) -> 7 #
     """
     return x + y
 ```
@@ -75,3 +82,36 @@ def add(x, y):
  1. Fastest uses itself for its nearly automated tests and documentation.
  2. Excluding the files that are to be changed infrequently, Fastest has 100% code coverage.
  3. Fastest has 2/32 test cases failing, a testimony to its ability to find bugs.
+
+
+## Patch 11 updates:
+ 1. Allows creation of variables within the docstrings, which includes lambda functions!
+ ```python
+def quick_maths(a, b):
+    """
+    ----
+    examples:
+    @let a = {
+        'apples': 3,
+        'oranges': 4
+    }
+    
+    1) quick_maths(a['apples'], a['oranges']) -> 7
+    ----
+    """
+    return a + b
+ ```
+ 2. Can include installed modules external to your project.
+ ```python
+def aint_nobody_got(time_fo_dat):
+    """
+    ---
+    examples:
+    @need
+    from datetime import datetime
+    1) aint_nobody_got(time_fo_dat) -> datetime.now()
+    """
+ ```
+ 3.  Can hence, include modules from your project. 
+ Make sure that you use absolute import format.
+ 
