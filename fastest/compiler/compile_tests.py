@@ -50,7 +50,6 @@ def write_tests_to_file(fp, imports, contents):
 
 
 def build(function_objects, src_file_path, base_path):
-    print(function_objects)
     last_file = -1
     test_file_name = src_file_path.split(SYS.SLASH)[last_file].replace('.py', SYS.TEST_FILE_ENDING)
     deps_import = src_file_path.replace(base_path + SYS.SLASH, '').replace(SYS.SLASH, '.').replace('.py', '')

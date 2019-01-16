@@ -1,1 +1,0 @@
-name = "case_labyrinth_pkg"

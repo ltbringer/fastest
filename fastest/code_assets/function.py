@@ -1,7 +1,5 @@
 import ast
-from fastest.code_assets.arguments import get_args
-from fastest.code_assets.variables import get_variables
-from fastest.code_assets.return_value import get_return_values
+
 from fastest.code_assets.naive_case_detector import get_test_from_example_passage
 
 
