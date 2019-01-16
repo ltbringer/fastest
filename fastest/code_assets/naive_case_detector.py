@@ -13,7 +13,6 @@ def stack_imports(import_statements):
         if len(import_statement) > 0
     ]
 
-
 def get_imports_from_docstring(example_passage):
     needed_imports = re.findall(PATTERNS.NEED_IMPORT, example_passage, re.M)
     needed_imports = needed_imports if len(needed_imports) > 0 else None

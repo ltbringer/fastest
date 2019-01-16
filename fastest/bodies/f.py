@@ -1,7 +1,5 @@
 import uuid
 from fastest.constants import KEYS, CONTENT
-from fastest import code_style
-from fastest.bodies.testers_notes import get_testers_notes
 
 
 def case_generator():
