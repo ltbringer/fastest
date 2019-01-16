@@ -51,6 +51,9 @@ def get_test_case_examples(example_passage):
 
 
 def get_test_from_example_passage(statements):
+    if statements is None:
+        return None
+
     example_passage = re.findall(PATTERNS.EXAMPLE_PASSAGE, statements, re.I)
     example_passage = example_passage[0] if len(example_passage) > 0 else None
     if example_passage is None:
