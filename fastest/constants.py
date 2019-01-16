@@ -28,15 +28,15 @@ class CONTENT:
     TEST_CASE_TEMPLATE = '    def test__{function_name}__{case_id}(self):'
     TESTERS_NOTES_TEMPLATE = '        {testers_notes}'
     VARIABLES_TEMPLATE = '        {variables}\n'
-    ASSERTION_TEMPLATE = '        self.assertEqual({function}, {value})\n\n'
+    ASSERTION_TEMPLATE = '\n        self.assertEqual({function}, {value})\n\n'
 
 
 class PATTERNS:
     FUNCTION_CALL = r'example: [\s\S]+?(?=->)'
     IMPORT_DEC = '@need\n'
     VAR_DEC = r'@let '
-    NEED_IMPORT = r'@need[\s\S]+?(?=@let|\d\))'
-    NEEDED_VARIABLES = r'@let[\s\S]+?(?=\d\))'
+    NEED_IMPORT = r'@need[\s\S]+?(?=@end)'
+    NEEDED_VARIABLES = r'@let[\s\S]+?(?=@end)'
     NUMBER_BULLET = r'\d\) '
     TEST_CASE_EXAMPLE = r'\d\) [\s\S]+?(?=\n)'
     EXAMPLE_PASSAGE = r'-{3,}[\s\S]+?(?=---)'

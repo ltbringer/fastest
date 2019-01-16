@@ -14,14 +14,14 @@ def stack_imports(import_statements):
     ]
 
 
-def stack_variables(variable_string):
-    if type(variable_string) is not str:
+def stack_variables(variables):
+    if type(variables) is not str:
         return ''
     variables = [
         variable.strip()
-        for variable in variable_string.split(PATTERNS.VAR_DEC)
+        for variable in variables.split('\n')
     ]
-    return variables
+    return ''.join(variables)
 
 
 def get_imports_from_docstring(example_passage):
@@ -34,9 +34,15 @@ def get_imports_from_docstring(example_passage):
 
 
 def get_variables_from_docstring(example_passage):
-    needed_variables = re.findall(r'@let[\s\S]+?(?=\d\))', example_passage)
-    needed_variables = needed_variables if len(needed_variables) > 0 else []
-    return stack_variables(''.join(needed_variables))
+    needed_variables = re.findall(PATTERNS.NEEDED_VARIABLES, example_passage)
+    print('needed_variables ---- ', needed_variables)
+    print(len(needed_variables) == 0)
+
+    if len(needed_variables) == 0:
+        return ''
+    needed_variables = needed_variables[0]
+    needed_variables = needed_variables.replace('@let', '')
+    return needed_variables.split('\n')
 
 
 def stack_examples(examples_strings):
@@ -58,12 +64,15 @@ def get_test_case_examples(example_passage):
 
 
 def get_test_from_example_passage(statements):
+    print(statements)
+    print(statements.__doc__)
     example_passage = re.findall(PATTERNS.EXAMPLE_PASSAGE, statements, re.I)
     example_passage = example_passage[0] if len(example_passage) > 0 else None
     if example_passage is None:
         return None
     import_statements = get_imports_from_docstring(example_passage)
     variables = get_variables_from_docstring(example_passage)
+    print('variables', variables)
     examples = get_test_case_examples(example_passage)
     return None \
         if examples is None \
