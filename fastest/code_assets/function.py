@@ -13,7 +13,14 @@ def get_functions_from_node(node):
 
 def get_functions(page):
     """
+    ------
+    examples:
+    @let
+    page = 'def f(): return 1'
+    @end
 
+    1) get_functions(page) -> [{'name': 'f', 'tests': None}]
+    ------
     :param page:
     :return:
     """

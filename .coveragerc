@@ -5,3 +5,6 @@ omit =
     **fastest/io**
     **fastest/__main__.py
     **fastest/code_assets/keywords.py
+    **fastest/constants.py
+    **fastest/bodies/f.py
+    **fastest/code_assets/naive_case_detector.py

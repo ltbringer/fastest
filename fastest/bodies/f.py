@@ -7,6 +7,12 @@ def case_generator():
 
 
 def create_naive_test_case(function_object, test):
+    """
+    ----
+    :param function_object:
+    :param test:
+    :return:
+    """
     test_template = CONTENT.TEST_CASE_TEMPLATE.format(
         function_name=function_object[KEYS.NAME],
         case_id=case_generator(),
@@ -17,5 +23,4 @@ def create_naive_test_case(function_object, test):
             test_template += CONTENT.VARIABLES_TEMPLATE.format(variables=variable)
 
     test_template += CONTENT.ASSERTION_TEMPLATE.format(function=test[KEYS.FROM], value=test[KEYS.EXPECT])
-
     return test_template
