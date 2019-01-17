@@ -51,7 +51,7 @@ def write_tests_to_file(fp, imports, contents):
 
 def build(function_objects, src_file_path, base_path):
     last_file = -1
-    test_file_name = src_file_path.split(SYS.SLASH)[last_file].replace('.py', SYS.TEST_FILE_ENDING)
+    test_file_name = 'test__' + src_file_path.split(SYS.SLASH)[last_file]
     deps_import = src_file_path.replace(base_path + SYS.SLASH, '').replace(SYS.SLASH, '.').replace('.py', '')
     root_module_name = deps_import.split('.')[-1]
     test_file_path = os.path.join(base_path, KEYS.TEST, test_file_name)

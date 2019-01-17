@@ -63,7 +63,7 @@ def main():
 
             command = ['test.{}'.format(test_file) for test_file in test_files]
             if (args.source):
-                subprocess.call(['pytest', 'run', '--source', args.source, '-m', 'unittest'] + command)
+                subprocess.call(['coverage', 'run', '--source', args.source, '-m', 'unittest'] + command)
             else:
                 subprocess.call(['coverage', 'run', '-m', 'unittest'] + command)
             subprocess.call(['coverage', 'report'])
