@@ -32,7 +32,7 @@ $ fastest --path=$(pwd) --exclude=dont_check_this_dir/*,these__*.py
 To exclude files/folders use `--exclude` and the file watcher will ignore them.
 The `test/*` folder that `faster` creates is excluded by default.
 
-## Introduction
+
 Things that happen when you run `python main.py --path=$(pwd)`:
 
  1. Checks for a `test` file at the project root, it creates if it doesn't find one.
@@ -78,40 +78,40 @@ def add(x, y):
     tests which prevents your descriptions from going stale, **either the tests fail 
     AND the description is outdated OR else everything is fine**.
 
-## Fun facts
- 1. Fastest uses itself for its nearly automated tests and documentation.
- 2. Excluding the files that are to be changed infrequently, Fastest has 100% code coverage.
- 3. Fastest has 2/32 test cases failing, a testimony to its ability to find bugs.
 
-
-## Patch 11 updates:
+## Examples:
  1. Allows creation of variables within the docstrings, which includes lambda functions!
  ```python
 def quick_maths(a, b):
     """
     ----
     examples:
-    @let a = {
+    @let 
+
+    a = {
         'apples': 3,
         'oranges': 4
     }
+    @end
     
     1) quick_maths(a['apples'], a['oranges']) -> 7
     ----
     """
     return a + b
  ```
- 2. Can include installed modules external to your project.
+ 2. You can run any valid python code within `@let--@end` blocks.
+ 3. Can include installed modules external to your project.
  ```python
 def aint_nobody_got(time_fo_dat):
     """
     ---
     examples:
+
     @need
     from datetime import datetime
+    @end
+
     1) aint_nobody_got(time_fo_dat) -> datetime.now()
     """
  ```
- 3.  Can hence, include modules from your project. 
- Make sure that you use absolute import format.
  
