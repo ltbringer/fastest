@@ -96,6 +96,20 @@ def stack_examples(examples_strings):
     return example_stack
 
 
+
+def get_params_from_docstring(statements):
+    params = re.findall(r':param .*:(.*)', statements, re.M)
+    return [
+        param.replace(' ', '')
+        for param in params
+    ]
+
+
+def get_return_from_docstring(statements):
+    return_statement = re.search(r':return: (.*)', statements, re.M)
+    return return_statement.group(1) if return_statement is not None else None
+
+
 def get_test_case_examples(example_passage):
     """
     ----
@@ -150,10 +164,16 @@ def get_test_from_example_passage(statements):
     import_statements = get_imports_from_docstring(example_passage)
     variables = get_variables_from_docstring(example_passage)
     examples = get_test_case_examples(example_passage)
+    params = get_params_from_docstring(statements)
+    return_statement = get_return_from_docstring(statements)
+    print('params', params)
+    print('return', return_statement)
     return None \
         if examples is None \
         else {
             KEYS.IMPORTS: import_statements,
             KEYS.VARIABLES: variables,
-            KEYS.EXAMPLES: examples
+            KEYS.EXAMPLES: examples,
+            KEYS.PARAMS: params,
+            KEYS.RETURN: return_statement
         }
