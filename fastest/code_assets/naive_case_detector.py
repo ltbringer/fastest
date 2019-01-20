@@ -166,8 +166,7 @@ def get_test_from_example_passage(statements):
     examples = get_test_case_examples(example_passage)
     params = get_params_from_docstring(statements)
     return_statement = get_return_from_docstring(statements)
-    print('params', params)
-    print('return', return_statement)
+
     return None \
         if examples is None \
         else {

@@ -19,6 +19,8 @@ class KEYS:
     FROM = 'from'
     EXPECT = 'expect'
     VARIABLES = 'variables'
+    PARAMS = 'params'
+    RETURN = 'return'
 
 
 class CONTENT:
@@ -28,6 +30,7 @@ class CONTENT:
     TEST_CASE_TEMPLATE = '    def test__{function_name}__{case_id}(self):'
     TESTERS_NOTES_TEMPLATE = '        {testers_notes}'
     VARIABLES_TEMPLATE = '        {variables}\n'
+    TYPE_ASSERT_TEMPLATE = '\n        self.assertEqual({function}, {value})\n'
     ASSERTION_TEMPLATE = '\n        self.assertEqual({function}, {value})\n\n'
 
 

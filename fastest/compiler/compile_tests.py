@@ -12,6 +12,7 @@ def add_imports_for_test_case(test, imports):
         imports.add(import_statement)
     return imports
 
+
 def create_test_class(imports, contents, deps_import, function_object, root_module_name):
     if len(function_object[KEYS.TESTS]) == 0:
         return None
@@ -25,6 +26,7 @@ def create_test_class(imports, contents, deps_import, function_object, root_modu
 def create_test_case_content(function_object, imports, contents):
     for example in function_object[KEYS.TESTS][KEYS.EXAMPLES]:
         contents.append(f.create_naive_test_case(function_object, example))
+
     imports = add_imports_for_test_case(function_object[KEYS.TESTS], imports)
     return imports, contents
 
