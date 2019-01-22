@@ -8,7 +8,7 @@ def case_generator():
 
 def get_empty_of_type(input_type):
     empty_type = {
-        'str': '',
+        'str': '\'\'',
         'int': '0',
         'list': '[]',
         'dict': '{}'
@@ -33,13 +33,10 @@ def create_naive_test_case(function_object, test):
         params.append(get_empty_of_type(param))
 
     if len(params) > 0:
-        print(function_object[KEYS.NAME])
-        print(params)
-        print(', '.join(params))
         empty_param_call = '{}({})'.format(function_object[KEYS.NAME], ', '.join(params))
 
         test_template += CONTENT.TYPE_ASSERT_TEMPLATE.format(
-            function=empty_param_call, value=function_object[KEYS.TEST][KEYS.RETURN]
+            function=empty_param_call, value=function_object[KEYS.TESTS][KEYS.RETURN]
         )
 
     if function_object[KEYS.TESTS][KEYS.VARIABLES]:
