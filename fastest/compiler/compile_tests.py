@@ -12,9 +12,6 @@ def add_imports_for_test_case(test, imports):
 
 
 def create_test_class(imports, contents, deps_import, function_object, root_module_name):
-    if len(function_object[KEYS.TESTS]) == 0:
-        return None
-
     imports.add(CONTENT.IMPORT_UNITTEST)
     imports.add(CONTENT.DEPS_IMPORT_TEMPLATE.format(deps_import, function_object[KEYS.NAME]))
     contents.append(CONTENT.CLASS_CREATE_TEMPLATE.format(root_module_name, function_object[KEYS.NAME]))
@@ -34,12 +31,10 @@ def create_test_case(function_objects, deps_import, root_module_name):
     contents = []
 
     for function_object in function_objects:
-        if len(function_object) == 0:
+        if type(function_object) is not dict:
             continue
-
         if function_object[KEYS.TESTS] is None:
             continue
-
         imports, contents = create_test_class(imports, contents, deps_import, function_object, root_module_name)
         imports, contents = create_test_case_content(function_object, imports, contents)
     return imports, contents
