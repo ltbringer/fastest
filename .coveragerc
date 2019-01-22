@@ -8,3 +8,4 @@ omit =
     **fastest/constants.py
     **fastest/bodies/f.py
     **fastest/code_assets/naive_case_detector.py
+    **logger**
