@@ -16,7 +16,7 @@ $ pip install fastest
 
 ## Usage
 ```bash
-$ fastest --path=$(pwd)
+$ fastest
 ```
 watches all .py files and creates coverage for entire project.
 
@@ -29,6 +29,7 @@ is same as the value passed to the command `coverage run -m unittest --source=$s
 ```bash
 $ fastest --path=$(pwd) --exclude=dont_check_this_dir/*,these__*.py
 ```
+
 To exclude files/folders use `--exclude` and the file watcher will ignore them.
 The `test/*` folder that `faster` creates is excluded by default.
 
@@ -87,7 +88,6 @@ def quick_maths(a, b):
     ----
     examples:
     @let 
-
     a = {
         'apples': 3,
         'oranges': 4
@@ -106,11 +106,9 @@ def aint_nobody_got(time_fo_dat):
     """
     ---
     examples:
-
     @need
     from datetime import datetime
     @end
-
     1) aint_nobody_got(time_fo_dat) -> datetime.now()
     """
  ```
