@@ -12,14 +12,15 @@ from watchdog.events import PatternMatchingEventHandler
 
 
 parser = argparse.ArgumentParser(description='Create test cases automatically')
-parser.add_argument('--path', required=True, help='Project root, use $(pwd) to be sure')
-parser.add_argument('--source',required=False, help='Modules to check coverage for')
+parser.add_argument('--path', help='Project root, use $(pwd) to be sure')
+parser.add_argument('--source', help='Modules to check coverage for')
 parser.add_argument(
     '--exclude',
     help='Comma separated names of files/dirs that should NOT be watched',
 )
 
 args = parser.parse_args()
+monitor_path = args.path if args.path is not None else os.getcwd() 
 
 
 def main():
@@ -29,7 +30,7 @@ def main():
         os.mkdir('./test')
         open('./test/__init__.py', 'a')
 
-    report_path = os.path.abspath(os.path.join(args.path, 'htmlcov/index.html'))
+    report_path = os.path.abspath(os.path.join(monitor_path, 'htmlcov/index.html'))
 
     class PyFileHandler(PatternMatchingEventHandler):
         patterns = ['*.py']
@@ -54,15 +55,15 @@ def main():
             ]
 
             for ignored_pattern in self.ignore_patterns:
-                if fnmatch.fnmatch(event.src_path.replace(args.path + '/', ''), ignored_pattern):
+                if fnmatch.fnmatch(event.src_path.replace(monitor_path + '/', ''), ignored_pattern):
                     return
 
-            page = read_file(args.path, event.src_path)
+            page = read_file(monitor_path, event.src_path)
             functions = get_functions(page)
-            compile_tests.build(functions, event.src_path, args.path)
+            compile_tests.build(functions, event.src_path, monitor_path)
 
             command = ['test.{}'.format(test_file) for test_file in test_files]
-            if (args.source):
+            if args.source:
                 subprocess.call(['coverage', 'run', '--source', args.source, '-m', 'unittest'] + command)
             else:
                 subprocess.call(['coverage', 'run', '-m', 'unittest'] + command)
@@ -77,7 +78,7 @@ def main():
             self.process(event)
 
     observer = Observer()
-    observer.schedule(PyFileHandler(), args.path, recursive=True)
+    observer.schedule(PyFileHandler(), monitor_path, recursive=True)
     observer.start()
 
     try:

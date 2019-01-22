@@ -3,14 +3,13 @@ from fastest.bodies import f
 from fastest.constants import CONTENT, KEYS, SYS
 
 
-
-
 def add_imports_for_test_case(test, imports):
     if test[KEYS.IMPORTS] is None:
         return imports
     for import_statement in test[KEYS.IMPORTS]:
         imports.add(import_statement)
     return imports
+
 
 def create_test_class(imports, contents, deps_import, function_object, root_module_name):
     if len(function_object[KEYS.TESTS]) == 0:
@@ -25,6 +24,7 @@ def create_test_class(imports, contents, deps_import, function_object, root_modu
 def create_test_case_content(function_object, imports, contents):
     for example in function_object[KEYS.TESTS][KEYS.EXAMPLES]:
         contents.append(f.create_naive_test_case(function_object, example))
+
     imports = add_imports_for_test_case(function_object[KEYS.TESTS], imports)
     return imports, contents
 
@@ -34,7 +34,7 @@ def create_test_case(function_objects, deps_import, root_module_name):
     contents = []
 
     for function_object in function_objects:
-        if function_object is None:
+        if len(function_object) == 0:
             continue
 
         if function_object[KEYS.TESTS] is None:
@@ -55,7 +55,6 @@ def build(function_objects, src_file_path, base_path):
     deps_import = src_file_path.replace(base_path + SYS.SLASH, '').replace(SYS.SLASH, '.').replace('.py', '')
     root_module_name = deps_import.split('.')[-1]
     test_file_path = os.path.join(base_path, KEYS.TEST, test_file_name)
-
 
     with open(test_file_path, 'w+') as fp:
         imports, contents = create_test_case(function_objects, deps_import, root_module_name)
