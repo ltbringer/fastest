@@ -1,5 +1,5 @@
 # Fastest
-Creates unit tests from examples in the docstring and more (Currently supporting unix based systems only)
+Creates unit tests from examples in the docstring and more.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ae01d1185a9b4e93be06e6faf894448d)](https://app.codacy.com/app/AmreshVenugopal/fastest?utm_source=github.com&utm_medium=referral&utm_content=AmreshVenugopal/fastest&utm_campaign=Badge_Grade_Dashboard)
 [![Scrutinizer_Badge](https://scrutinizer-ci.com/g/AmreshVenugopal/fastest/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AmreshVenugopal/fastest/)
@@ -27,12 +27,17 @@ where `path` is the the project root, and [`source`](https://coverage.readthedoc
 is same as the value passed to the command `coverage run -m unittest --source=$source test`
 
 ```bash
-$ fastest --path=$(pwd) --exclude=dont_check_this_dir/*,these__*.py
+$ fastest --exclude=dont_check_this_dir/*,these__*.py
 ```
 
 To exclude files/folders use `--exclude` and the file watcher will ignore them.
 The `test/*` folder that `faster` creates is excluded by default.
 
+
+```bash
+$ fastest --poll-duration=10
+```
+Builds files, runs tests and coverage every `10s`, default = `1s`
 
 Things that happen when you run `python main.py --path=$(pwd)`:
 
@@ -82,34 +87,45 @@ def add(x, y):
 
 ## Examples:
  1. Allows creation of variables within the docstrings, which includes lambda functions!
- ```python
-def quick_maths(a, b):
-    """
-    ----
-    examples:
-    @let 
-    a = {
-        'apples': 3,
-        'oranges': 4
-    }
-    @end
-    
-    1) quick_maths(a['apples'], a['oranges']) -> 7
-    ----
-    """
-    return a + b
- ```
+     ```python
+    def quick_maths(a, b):
+        """
+        ----
+        examples:
+        @let 
+        a = {
+            'apples': 3,
+            'oranges': 4
+        }
+        @end
+        
+        1) quick_maths(a['apples'], a['oranges']) -> 7
+        ----
+        """
+        return a + b
+     ```
  2. You can run any valid python code within `@let--@end` blocks.
  3. Can include installed modules external to your project.
- ```python
-def aint_nobody_got(time_fo_dat):
-    """
-    ---
-    examples:
-    @need
-    from datetime import datetime
-    @end
-    1) aint_nobody_got(time_fo_dat) -> datetime.now()
-    """
- ```
- 
+     ```python
+    def aint_nobody_got(time_fo_dat):
+        """
+        ---
+        examples:
+        @need
+        from datetime import datetime
+        @end
+        1) aint_nobody_got(time_fo_dat) -> datetime.now()
+        """
+     ```
+ 4. If types are added to docstring, fastest will create tests
+ for checking type of the value returned against empty of arguments.
+    ```python
+    def chain_strings(str1, str2):
+        """
+        :param str1: str
+        :param str2: str
+        :return: str
+        """
+        return str1 + str2
+    ``` 
+    fastest will create a `assertInstanceIs(chain_strings('', ''), str)` for the above snippet.
