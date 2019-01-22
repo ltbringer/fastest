@@ -50,7 +50,7 @@ def add(x, y):
     """
     ----
     examples:
-    1) add(3, 4) -> 7 #
+    1) add(3, 4) -> 7
     """
     return x + y
 ```
