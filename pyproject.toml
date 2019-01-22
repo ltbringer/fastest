@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fastest"
-version = "0.0.11"
+version = "0.0.12"
 description = "Automate tests via docstrings and more"
 authors = ["AmreshVenugopal <amresh.venugopal@gmail.com>"]
 license = "MIT"
