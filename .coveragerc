@@ -6,5 +6,6 @@ omit =
     **fastest/constants.py
     **fastest/file_handler/**
     **mocks**
+    test/**
     **logger**
     **__init__.py
