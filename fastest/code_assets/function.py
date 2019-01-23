@@ -1,10 +1,13 @@
 import ast
-
 from fastest.code_assets.naive_case_detector import get_test_from_example_passage
 
 
-
 def get_functions_from_node(node):
+    """
+    Extract functions from ast node
+    :param node:
+    :return: list
+    """
     return [{
         'name': n.name,
         'tests': get_test_from_example_passage(ast.get_docstring(n))
@@ -13,6 +16,8 @@ def get_functions_from_node(node):
 
 def get_functions(page):
     """
+    Read a python script and extract functions and class methods
+    and add them to a list
     ------
     examples:
     @let
