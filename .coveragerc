@@ -1,11 +1,10 @@
 [run]
 omit =
-    **fastest/bodies**
-    **fastest/compiler**
-    **fastest/io**
+    **fastest/cli**
     **fastest/__main__.py
     **fastest/code_assets/keywords.py
     **fastest/constants.py
-    **fastest/bodies/f.py
-    **fastest/code_assets/naive_case_detector.py
+    **fastest/file_handler/**
+    **mocks**
     **logger**
+    **__init__.py
