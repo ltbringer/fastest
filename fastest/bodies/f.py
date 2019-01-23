@@ -3,10 +3,19 @@ from fastest.constants import KEYS, CONTENT
 
 
 def case_generator():
+    """
+    Use uuid to create test-case unique name
+    :return:
+    """
     return str(uuid.uuid4()).upper().replace("-", "")[0:10]
 
 
 def get_empty_of_type(input_type):
+    """
+    Return an empty form of a given type
+    :param input_type: str
+    :return: str
+    """
     empty_type = {
         'str': '\'\'',
         'int': '0',
