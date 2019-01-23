@@ -9,3 +9,4 @@ build
 .coveralls.yml
 .scrutinizer_token
 *.egg-info/
+.pypirc
