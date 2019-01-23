@@ -20,14 +20,20 @@ def get_functions(page):
     and add them to a list
     ------
     examples:
-    @let
-    page = 'def f(): return 1'
+
+    @need
+    from fastest.constants import TestBodies
     @end
 
-    1) get_functions(page) -> [{'name': 'f', 'tests': None}]
+    @let
+    page = TestBodies.GET_FUNCTIONS_TEST_CASE_1
+    @end
+
+
+    1) get_functions(page) -> TestBodies.GET_FUNCTIONS_TEST_CASE_1_EXPECT
     ------
-    :param page:
-    :return:
+    :param page: str
+    :return: list
     """
     node = ast.parse(page)
     functions = get_functions_from_node(node)

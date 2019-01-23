@@ -1,5 +1,5 @@
 import re
-from fastest.constants import KEYS, PATTERNS
+from fastest.constants import Keys, Patterns
 
 
 FUNCTION_CALL = 0
@@ -41,11 +41,11 @@ def get_imports_from_docstring(example_passage):
     :param example_passage:
     :return:
     """
-    needed_imports = re.findall(PATTERNS.NEED_IMPORT, example_passage, re.M)
+    needed_imports = re.findall(Patterns.NEED_IMPORT, example_passage, re.M)
     needed_imports = needed_imports if len(needed_imports) > 0 else None
     if needed_imports is None:
         return []
-    needed_imports = ''.join(needed_imports).replace(PATTERNS.IMPORT_DEC, '').split('\n')
+    needed_imports = ''.join(needed_imports).replace(Patterns.IMPORT_DEC, '').split('\n')
     return stack_imports(needed_imports)
 
 
@@ -59,7 +59,7 @@ def get_variables_from_docstring(example_passage):
     :param example_passage:
     :return:
     """
-    needed_variables = re.findall(PATTERNS.NEEDED_VARIABLES, example_passage)
+    needed_variables = re.findall(Patterns.NEEDED_VARIABLES, example_passage)
     if len(needed_variables) == 0:
         return ''
     needed_variables = needed_variables[0]
@@ -86,12 +86,12 @@ def stack_examples(examples_strings):
     """
     example_stack = []
     for example in examples_strings:
-        test_function, expectation = re.sub(PATTERNS.NUMBER_BULLET, '', example, 1)\
-            .rsplit(PATTERNS.TEST_SEP, 1)
+        test_function, expectation = re.sub(Patterns.NUMBER_BULLET, '', example, 1)\
+            .rsplit(Patterns.TEST_SEP, 1)
 
         example_stack.append({
-            KEYS.FROM: test_function,
-            KEYS.EXPECT: expectation
+            Keys.FROM: test_function,
+            Keys.EXPECT: expectation
         })
     return example_stack
 
@@ -127,7 +127,7 @@ def get_test_case_examples(example_passage):
     :param example_passage:
     :return:
     """
-    examples_strings = re.findall(PATTERNS.TEST_CASE_EXAMPLE, example_passage, re.M)
+    examples_strings = re.findall(Patterns.TEST_CASE_EXAMPLE, example_passage, re.M)
     examples_strings = examples_strings if len(examples_strings) > 0 else []
     return stack_examples(examples_strings)
 
@@ -157,7 +157,7 @@ def get_test_from_example_passage(statements):
     if statements is None:
         return None
 
-    example_passage = re.findall(PATTERNS.EXAMPLE_PASSAGE, statements, re.I)
+    example_passage = re.findall(Patterns.EXAMPLE_PASSAGE, statements, re.I)
     example_passage = example_passage[0] if len(example_passage) > 0 else None
     if example_passage is None:
         return None
@@ -170,9 +170,9 @@ def get_test_from_example_passage(statements):
     return None \
         if examples is None \
         else {
-            KEYS.IMPORTS: import_statements,
-            KEYS.VARIABLES: variables,
-            KEYS.EXAMPLES: examples,
-            KEYS.PARAMS: params,
-            KEYS.RETURN: return_statement
+            Keys.IMPORTS: import_statements,
+            Keys.VARIABLES: variables,
+            Keys.EXAMPLES: examples,
+            Keys.PARAMS: params,
+            Keys.RETURN: return_statement
         }

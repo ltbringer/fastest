@@ -1,7 +1,7 @@
 import platform
 
 
-class SYS:
+class Sys:
     __UNIX_SLASH = '/'
     __WINDOWS_SLASH = '\\'
     PY = '.py'
@@ -9,7 +9,7 @@ class SYS:
     TEST_FILE_ENDING = '__test.py'
 
 
-class KEYS:
+class Keys:
     IMPORTS = 'imports'
     NAME = 'name'
     TESTS = 'tests'
@@ -23,7 +23,7 @@ class KEYS:
     RETURN = 'return'
 
 
-class CONTENT:
+class Content:
     CLASS_CREATE_TEMPLATE = '\nclass Test{}{}(unittest.TestCase):\n'
     IMPORT_UNITTEST = 'import unittest\n'
     DEPS_IMPORT_TEMPLATE = 'from {} import {}\n'
@@ -34,7 +34,7 @@ class CONTENT:
     ASSERTION_TEMPLATE = '\n        self.assertEqual({function}, {value})\n'
 
 
-class PATTERNS:
+class Patterns:
     FUNCTION_CALL = r'example: [\s\S]+?(?=->)'
     IMPORT_DEC = '@need\n'
     VAR_DEC = r'@let '
@@ -44,3 +44,17 @@ class PATTERNS:
     TEST_CASE_EXAMPLE = r'\d\) [\s\S]+?(?=\n)'
     EXAMPLE_PASSAGE = r'-{3,}[\s\S]+?(?=---)'
     TEST_SEP = ' -> '
+
+
+class TestBodies:
+    GET_FUNCTIONS_TEST_CASE_1 = """
+def function_1():
+    return 1
+"""
+    GET_FUNCTIONS_TEST_CASE_1_EXPECT = [{'name': 'function_1', 'tests': None}]
+    TYPE_TEST_CASE_1 = '\n        self.assertIsInstance(function_1(str, str), str)'
+    TYPE_TEST_CASE_2 = '\n        self.assertIsInstance(function_1(str, str), str)'
+    ASSERTION_TEST_1 = '        a = 5\n'
+    NAIVE_TEST_RESULT = """    def test__function_1__A55EFF11ED(self):        a = 5
+
+        self.assertEqual(function_1, 2)\n"""
