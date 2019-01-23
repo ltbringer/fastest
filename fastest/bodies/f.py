@@ -22,7 +22,7 @@ def get_empty_of_type(input_type):
         'list': '[]',
         'dict': '{}'
     }
-    return empty_type[input_type]
+    return empty_type.get(input_type)
 
 
 def create_naive_test_case(function_object, test):
