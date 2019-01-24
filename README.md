@@ -1,33 +1,33 @@
 # Fastest
 Creates unit tests from examples in the docstring and more.
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ae01d1185a9b4e93be06e6faf894448d)](https://app.codacy.com/app/AmreshVenugopal/Fastest?utm_source=github.com&utm_medium=referral&utm_content=AmreshVenugopal/Fastest&utm_campaign=Badge_Grade_Dashboard)
-[![Scrutinizer_Badge](https://scrutinizer-ci.com/g/AmreshVenugopal/Fastest/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AmreshVenugopal/Fastest/)
-[![Coverage Status](https://coveralls.io/repos/github/AmreshVenugopal/Fastest/badge.svg?branch=master)](https://coveralls.io/github/AmreshVenugopal/Fastest?branch=master)
-[![Build_Status](https://travis-ci.org/AmreshVenugopal/Fastest.svg?branch=master)](https://travis-ci.org/AmreshVenugopal/Fastest)
-[![Current_Version](https://img.shields.io/pypi/v/Fastest.svg)](https://pypi.org/project/Fastest/)
-[![Python_Version](https://img.shields.io/pypi/pyversions/Fastest.svg)](https://pypi.org/project/Fastest/)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ae01d1185a9b4e93be06e6faf894448d)](https://app.codacy.com/app/AmreshVenugopal/fastest?utm_source=github.com&utm_medium=referral&utm_content=AmreshVenugopal/fastest&utm_campaign=Badge_Grade_Dashboard)
+[![Scrutinizer_Badge](https://scrutinizer-ci.com/g/AmreshVenugopal/fastest/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AmreshVenugopal/fastest/)
+[![Coverage Status](https://coveralls.io/repos/github/AmreshVenugopal/fastest/badge.svg?branch=master)](https://coveralls.io/github/AmreshVenugopal/fastest?branch=master)
+[![Build_Status](https://travis-ci.org/AmreshVenugopal/fastest.svg?branch=master)](https://travis-ci.org/AmreshVenugopal/fastest)
+[![Current_Version](https://img.shields.io/pypi/v/fastest.svg)](https://pypi.org/project/fastest/)
+[![Python_Version](https://img.shields.io/pypi/pyversions/fastest.svg)](https://pypi.org/project/fastest/)
 
 ## Install
 
 ```bash
-$ pip install Fastest
+$ pip install fastest
 ```
 
 ## Usage
 ```bash
-$ Fastest
+$ fastest
 ```
 watches all .py files and creates coverage for entire project.
 
 ```bash
-$ Fastest --path=$(pwd) --source=py_module
+$ fastest --path=$(pwd) --source=py_module
 ```
 where `path` is the the project root, and [`source`](https://coverage.readthedocs.io/en/coverage-4.3.4/source.html#source) 
 is same as the value passed to the command `coverage run -m unittest --source=$source test`
 
 ```bash
-$ Fastest --exclude=dont_check_this_dir/*,these__*.py
+$ fastest --exclude=dont_check_this_dir/*,these__*.py
 ```
 
 To exclude files/folders use `--exclude` and the file watcher will ignore them.
@@ -35,7 +35,7 @@ The `test/*` folder that `faster` creates is excluded by default.
 
 
 ```bash
-$ Fastest --poll-duration=10
+$ fastest --poll-duration=10
 ```
 Builds files, runs tests and coverage every `10s`, default = `1s`
 
