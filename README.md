@@ -1,33 +1,33 @@
 # Fastest
 Creates unit tests from examples in the docstring and more.
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ae01d1185a9b4e93be06e6faf894448d)](https://app.codacy.com/app/AmreshVenugopal/fastest?utm_source=github.com&utm_medium=referral&utm_content=AmreshVenugopal/fastest&utm_campaign=Badge_Grade_Dashboard)
-[![Scrutinizer_Badge](https://scrutinizer-ci.com/g/AmreshVenugopal/fastest/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AmreshVenugopal/fastest/)
-[![Coverage Status](https://coveralls.io/repos/github/AmreshVenugopal/fastest/badge.svg?branch=master)](https://coveralls.io/github/AmreshVenugopal/fastest?branch=master)
-[![Build_Status](https://travis-ci.org/AmreshVenugopal/fastest.svg?branch=master)](https://travis-ci.org/AmreshVenugopal/fastest)
-[![Current_Version](https://img.shields.io/pypi/v/fastest.svg)](https://pypi.org/project/fastest/)
-[![Python_Version](https://img.shields.io/pypi/pyversions/fastest.svg)](https://pypi.org/project/fastest/)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ae01d1185a9b4e93be06e6faf894448d)](https://app.codacy.com/app/AmreshVenugopal/Fastest?utm_source=github.com&utm_medium=referral&utm_content=AmreshVenugopal/Fastest&utm_campaign=Badge_Grade_Dashboard)
+[![Scrutinizer_Badge](https://scrutinizer-ci.com/g/AmreshVenugopal/Fastest/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AmreshVenugopal/Fastest/)
+[![Coverage Status](https://coveralls.io/repos/github/AmreshVenugopal/Fastest/badge.svg?branch=master)](https://coveralls.io/github/AmreshVenugopal/Fastest?branch=master)
+[![Build_Status](https://travis-ci.org/AmreshVenugopal/Fastest.svg?branch=master)](https://travis-ci.org/AmreshVenugopal/Fastest)
+[![Current_Version](https://img.shields.io/pypi/v/Fastest.svg)](https://pypi.org/project/Fastest/)
+[![Python_Version](https://img.shields.io/pypi/pyversions/Fastest.svg)](https://pypi.org/project/Fastest/)
 
 ## Install
 
 ```bash
-$ pip install fastest
+$ pip install Fastest
 ```
 
 ## Usage
 ```bash
-$ fastest
+$ Fastest
 ```
 watches all .py files and creates coverage for entire project.
 
 ```bash
-$ fastest --path=$(pwd) --source=py_module
+$ Fastest --path=$(pwd) --source=py_module
 ```
 where `path` is the the project root, and [`source`](https://coverage.readthedocs.io/en/coverage-4.3.4/source.html#source) 
 is same as the value passed to the command `coverage run -m unittest --source=$source test`
 
 ```bash
-$ fastest --exclude=dont_check_this_dir/*,these__*.py
+$ Fastest --exclude=dont_check_this_dir/*,these__*.py
 ```
 
 To exclude files/folders use `--exclude` and the file watcher will ignore them.
@@ -35,7 +35,7 @@ The `test/*` folder that `faster` creates is excluded by default.
 
 
 ```bash
-$ fastest --poll-duration=10
+$ Fastest --poll-duration=10
 ```
 Builds files, runs tests and coverage every `10s`, default = `1s`
 
@@ -79,10 +79,11 @@ def add(x, y):
     wrap them with your own functions.
     - Helps with adding customizations in one place (configuring things like base url, and similar configs)
     - Helps mocking so that entire code-base can be unit tested.
- 3. Docstrings may get outdated if your work pace is fast enough to 
-    maintain quality documentation, but adding examples now would help you create 
-    tests which prevents your descriptions from going stale, **either the tests fail 
-    AND the description is outdated OR else everything is fine**.
+ 3. Docstrings may get outdated if your work pace is too fast to maintain quality documentation. 
+    Now adding examples now would help you create 
+    tests which prevents your descriptions from going stale, **if the tests fail, 
+    probably the documentation needs a second look too**. This is enforced within Fastest, as documentation **IS**
+    contributing to tests.
 
 
 ## Examples:
@@ -107,17 +108,18 @@ def add(x, y):
  2. You can run any valid python code within `@let--@end` blocks.
  3. Can include installed modules external to your project.
      ```python
-    def aint_nobody_got(time_fo_dat):
+    def current_time():
         """
         ---
         examples:
         @need
         from datetime import datetime
         @end
-        1) aint_nobody_got(time_fo_dat) -> datetime.now()
+        1) current_time() -> datetime.now()
         """
+        return datetime.now()
      ```
- 4. If types are added to docstring, fastest will create tests
+ 4. If types are added to docstring, Fastest will create tests
  for checking type of the value returned against empty of arguments.
     ```python
     def chain_strings(str1, str2):
@@ -128,4 +130,13 @@ def add(x, y):
         """
         return str1 + str2
     ``` 
-    fastest will create a `assertInstanceIs(chain_strings('', ''), str)` for the above snippet.
+    Fastest will create a `assertInstanceIs(chain_strings('', ''), str)` for the above snippet.
+
+# Goals for Fastest
+- [x] Help maintaining tests, code-coverage and documentation.
+- [ ] Help with performance issues within code.
+- [ ] Provide testability score for code.
+- [ ] Test functions for auto-generated inputs where the code would crash.
+
+
+Fastest uses itself for creating tests and manages a 100% on the coverage!
