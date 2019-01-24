@@ -4,7 +4,7 @@ from fastest.test_compiler.compile_tests import create_test_class
 import unittest
 
 class TestCompileTestsAddImportsForTestCase(unittest.TestCase):
-    def test__add_imports_for_test_case__F0955CF53A(self):        
+    def test__add_imports_for_test_case__7EB7EA29E6(self):        
         empty_test = { 'imports': None }
         test = { 'imports': ['from datetime import datetime'] }
         imports = {'import numpy as np'}
@@ -12,7 +12,7 @@ class TestCompileTestsAddImportsForTestCase(unittest.TestCase):
         
 
         self.assertEqual(add_imports_for_test_case(empty_test, imports), imports)
-    def test__add_imports_for_test_case__2DBB5AB4A8(self):        
+    def test__add_imports_for_test_case__108109FB19(self):        
         empty_test = { 'imports': None }
         test = { 'imports': ['from datetime import datetime'] }
         imports = {'import numpy as np'}
@@ -22,7 +22,7 @@ class TestCompileTestsAddImportsForTestCase(unittest.TestCase):
         self.assertEqual(add_imports_for_test_case(test, imports), updated_imports)
 
 class TestCompileTestsCreateTestClass(unittest.TestCase):
-    def test__create_test_class__E0716D7375(self):        
+    def test__create_test_class__476570EE77(self):        
         imports = {'import random'}
         contents = ['']
         deps_import = 'fastest/__main__'
