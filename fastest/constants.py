@@ -58,3 +58,65 @@ def function_1():
     NAIVE_TEST_RESULT = """    def test__function_1__A55EFF11ED(self):        a = 5
 
         self.assertEqual(function_1, 2)\n"""
+    TEST_STACK_IMPORTS_OUTPUT = ['from datetime import datetime\n', 'import numpy as np\n']
+    TEST_STACK_IMPORTS_INPUT = ['from datetime import datetime  ', ' import numpy as np ']
+    EXAMPLE_WITH_IMPORTS = """
+    @need
+    from datetime import datetime
+    import numpy as np
+    @end
+    """
+    TEST_IMPORT_EXTRACTION = [
+        'from datetime import datetime\n',
+        'import numpy as np\n',
+        '\n'
+    ]
+
+    TEST_VARIABLES_FROM_DOCSTRING = """
+    @let
+    a = 4
+    @end
+    """
+    TEST_VARIABLES_FROM_DOCSTRING_RESULT = ['', '    a = 4', '    ']
+    STACK_EXAMPLES_TEST = ['1) square(5) -> 25']
+    GET_PARAMS_FROM_DOCSTRING_TEST = """
+    :param item: int
+    :param store: dict
+    """
+    EXPECT_PARAMS = ['int', 'dict']
+    RETURN_TYPE_TEST = """
+    :return: int
+    """
+    TEST_EXAMPLE_PASSAGE = """ 
+    1) square(4) -> 16
+    2) page(20) -> []
+    """
+    TEST_EXAMPLE_PASSAGE_RESULT = [
+        {'expect': '16', 'from': 'square(4)'},
+        {'expect': '[]', 'from': 'page(20)'}
+    ]
+    NAIVE_CASE_TEST_STATEMENT = """
+    ----
+    example:
+    
+    @need
+    from datetime import datetime
+    @end
+    
+    @let
+    a = 2
+    x = 2
+    @end
+    
+    1) pow(a, x) -> 4
+    ----
+    :param x: int
+    :return: int
+    """
+    NAIVE_CASE_TEST_RESULT = {
+        'examples': [{'expect': '4', 'from': 'pow(a, x)'}],
+        'imports': ['from datetime import datetime\n', '\n'],
+        'params': ['int'],
+        'return': 'int',
+        'variables': ['', '    a = 2', '    x = 2', '    ']
+    }

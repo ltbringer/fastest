@@ -6,58 +6,79 @@ FUNCTION_CALL = 0
 OUTPUT = 1
 
 
-def stack_imports(import_statements):
+def format_imports(import_statements):
     """
     -----
     examples:
+    @need
+    from fastest.constants import TestBodies
+    @end
 
     @let
-    output = ['from datetime import datetime\\n', 'import numpy as np\\n']
+    input = TestBodies.TEST_STACK_IMPORTS_INPUT
+    output = TestBodies.TEST_STACK_IMPORTS_OUTPUT
     @end
-    1) stack_imports(['from datetime import datetime  ', ' import numpy as np ']) -> output
+    1) format_imports(input) -> output
     -----
-    :param import_statements:
-    :return:
+    :param import_statements: list
+    :return: list
     """
     return [
-        import_statement.strip() + '\n'
+        '{}\n'.format(import_statement.strip())
         for import_statement in import_statements
         if len(import_statement) > 0
     ]
+
 
 def get_imports_from_docstring(example_passage):
     """
     ----
     examples:
 
-    @let
-    no_import_in_docstring = 'nothing to see here'
-    docstring_with_imports = 'import numpy as np'
+    @need
+    from fastest.constants import TestBodies
     @end
 
-    1) get_imports_from_docstring(no_import_in_docstring) -> []
-    2) get_imports_from_docstring(docstring_with_imports) -> []
+    @let
+    example_passage = TestBodies.EXAMPLE_WITH_IMPORTS
+    import_statements = TestBodies.TEST_IMPORT_EXTRACTION
+    empty_example_passage = ''
+    @end
+
+    1) get_imports_from_docstring(example_passage) -> import_statements
+    1) get_imports_from_docstring(empty_example_passage) -> []
     ----
-    :param example_passage:
-    :return:
+    :param example_passage: str
+    :return: list
     """
     needed_imports = re.findall(Patterns.NEED_IMPORT, example_passage, re.M)
     needed_imports = needed_imports if len(needed_imports) > 0 else None
     if needed_imports is None:
         return []
+
     needed_imports = ''.join(needed_imports).replace(Patterns.IMPORT_DEC, '').split('\n')
-    return stack_imports(needed_imports)
+    return format_imports(needed_imports)
 
 
 def get_variables_from_docstring(example_passage):
     """
     ----
     examples:
-    1) get_variables_from_docstring("@let\\na = 1\\n@end") -> ['a = 1']
-    ----
+    @need
+    from fastest.constants import TestBodies
+    @end
 
-    :param example_passage:
-    :return:
+    @let
+    example_passage = TestBodies.TEST_VARIABLES_FROM_DOCSTRING
+    empty_example_passage = ''
+    expected_output = TestBodies.TEST_VARIABLES_FROM_DOCSTRING_RESULT
+    @end
+
+    1) get_variables_from_docstring(empty_example_passage) -> ''
+    2) get_variables_from_docstring(example_passage) -> expected_output
+    ----
+    :param example_passage: str
+    :return: list
     """
     needed_variables = re.findall(Patterns.NEEDED_VARIABLES, example_passage)
     if len(needed_variables) == 0:
@@ -69,20 +90,22 @@ def get_variables_from_docstring(example_passage):
 
 def stack_examples(examples_strings):
     """
-    -----
+    ----
     examples:
 
-    @let
-    output = [{
-        'from': 'stack_examples("1) some_fn() -> 1")',
-        'expect': 1
-    }]
+    @need
+    from fastest.constants import TestBodies
     @end
-    1) stack_examples([]) -> []
-    2) stack_examples("1) some_fn() -> 1") -> output
-    -----
-    :param examples_strings:
-    :return:
+
+    @let
+    example_strings = TestBodies.STACK_EXAMPLES_TEST
+    @end
+
+    1) stack_examples('') -> []
+    2) stack_examples(example_strings) -> [{'expect': '25', 'from': 'square(5)'}]
+    ----
+    :param examples_strings: list
+    :return: list
     """
     example_stack = []
     for example in examples_strings:
@@ -96,9 +119,26 @@ def stack_examples(examples_strings):
     return example_stack
 
 
-
 def get_params_from_docstring(statements):
-    params = re.findall(r':param .*:(.*)', statements, re.M)
+    """
+    ----
+    examples:
+
+    @need
+    from fastest.constants import TestBodies
+    @end
+
+    @let
+    statements = TestBodies.GET_PARAMS_FROM_DOCSTRING_TEST
+    @end
+
+    1) get_params_from_docstring('') -> []
+    2) get_params_from_docstring(statements) -> TestBodies.EXPECT_PARAMS
+    ----
+    :param statements: str
+    :return: list
+    """
+    params = re.findall(r':param .*:(.*)', statements)
     return [
         param.replace(' ', '')
         for param in params
@@ -106,7 +146,24 @@ def get_params_from_docstring(statements):
 
 
 def get_return_from_docstring(statements):
-    return_statement = re.search(r':return: (.*)', statements, re.M)
+    """
+    ----
+    examples:
+    @need
+    from fastest.constants import TestBodies
+    @end
+
+    @let
+    statements = TestBodies.RETURN_TYPE_TEST
+    @end
+
+    1) get_return_from_docstring('') -> None
+    2) get_return_from_docstring(statements) -> 'int'
+    ----
+    :param statements: str
+    :return: str
+    """
+    return_statement = re.search(r':return: (.*)', statements)
     return return_statement.group(1) if return_statement is not None else None
 
 
@@ -115,17 +172,18 @@ def get_test_case_examples(example_passage):
     ----
     examples:
 
-    @let
-    example_passage = '1) some_fn() -> 1'
-    output = [{
-        'from': 'stack_examples("1) some_fn() -> 1")',
-        'expect': 1
-    }]
+    @need
+    from fastest.constants import TestBodies
     @end
-    1) get_test_case_examples(example_passage) -> output
+
+    @let
+    example_passage = TestBodies.TEST_EXAMPLE_PASSAGE
+    @end
+
+    1) get_test_case_examples(example_passage) -> TestBodies.TEST_EXAMPLE_PASSAGE_RESULT
     ----
-    :param example_passage:
-    :return:
+    :param example_passage: str
+    :return: list
     """
     examples_strings = re.findall(Patterns.TEST_CASE_EXAMPLE, example_passage, re.M)
     examples_strings = examples_strings if len(examples_strings) > 0 else []
@@ -137,19 +195,17 @@ def get_test_from_example_passage(statements):
     ----
     examples:
 
-    @let
-    some_fn = lambda: 1
-    output = {
-        'imports': ['import numpy as np']
-        'variables': ['a = 1'],
-        'examples': [{
-            'from': 'some_fn()',
-            'expect': 1
-        }]
-    }
+    @need
+    from fastest.constants import TestBodies
     @end
 
-    1) get_test_from_example_passage('---\\n@needs\\nimport numpy as np\\n@end\\n\\n@let\\na = 1\\n1) some_fn() -> 1') -> output
+    @let
+    statements = TestBodies.NAIVE_CASE_TEST_STATEMENT
+    @end
+
+    1) get_test_from_example_passage(statements) -> TestBodies.NAIVE_CASE_TEST_RESULT
+    2) get_test_from_example_passage(None) -> None
+    3) get_test_from_example_passage('lorem ipsum') -> None
     ----
     :param statements:
     :return:
