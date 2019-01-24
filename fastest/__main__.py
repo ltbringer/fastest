@@ -4,7 +4,7 @@ import time
 
 from fastest.file_handler.read_file import read_file
 from fastest.code_assets.function import get_functions
-from fastest.test_compiler import compile_tests
+from fastest.test_compiler import test_writer
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 from logger.logger import logger
@@ -38,7 +38,7 @@ def main():
 
             page = read_file(monitor_path, event.src_path)
             functions = get_functions(page)
-            compile_tests.build(functions, event.src_path, monitor_path)
+            test_writer.build(functions, event.src_path, monitor_path)
             execute_tests(monitor_path)
             execute_coverage(monitor_path)
 

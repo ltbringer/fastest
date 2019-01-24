@@ -120,3 +120,55 @@ def function_1():
         'return': 'int',
         'variables': ['', '    a = 2', '    x = 2', '    ']
     }
+    CREATE_TEST_CLASS_RESULT = ({'from fastest/__main__ import add_imports_for_test_case\n',
+                                 'import random',
+                                 'import unittest\n'},
+                                ['', '\nclass TestFastestAddImportsForTestCase(unittest.TestCase):\n'])
+
+    TEST_CASE_CONTENT_RESULT = ({'from fastest.constants import TestBodies\n', 'import random'},
+                                ['',
+                                 '    def test__add_imports_for_test_case__0A856D9D76(self):        \n'
+                                 "        empty_test = { 'imports': None }\n"
+                                 "        test = { 'imports': ['from datetime import datetime'] }\n"
+                                 "        imports = {'import numpy as np'}\n"
+                                 "        updated_imports = {'import numpy as np', 'from datetime import "
+                                 "datetime'}\n"
+                                 '        \n'
+                                 '\n'
+                                 '        self.assertEqual(add_imports_for_test_case(empty_test, imports), '
+                                 'imports)\n',
+                                 '    def test__add_imports_for_test_case__B502446AEB(self):        \n'
+                                 "        empty_test = { 'imports': None }\n"
+                                 "        test = { 'imports': ['from datetime import datetime'] }\n"
+                                 "        imports = {'import numpy as np'}\n"
+                                 "        updated_imports = {'import numpy as np', 'from datetime import "
+                                 "datetime'}\n"
+                                 '        \n'
+                                 '\n'
+                                 '        self.assertEqual(add_imports_for_test_case(test, imports), '
+                                 'updated_imports)\n'])
+    MOCK_FUNCTION_OBJECT = {
+        'name': 'add_imports_for_test_case',
+        'tests': {
+            'examples': [{
+                'expect': 'imports',
+                'from': 'add_imports_for_test_case(empty_test, '
+                        'imports)'
+            }, {
+                'expect': 'updated_imports',
+                'from': 'add_imports_for_test_case(test, '
+                        'imports)'
+            }],
+            'imports': ['from fastest.constants import TestBodies\n'],
+            'params': ['dict', 'set'],
+            'return': 'set',
+            'variables': ['',
+                          "empty_test = { 'imports': None }",
+                          "test = { 'imports': ['from datetime import "
+                          "datetime'] }",
+                          "imports = {'import numpy as np'}",
+                          "updated_imports = {'import numpy as np', 'from "
+                          "datetime import datetime'}",
+                          '']
+        }
+    }
