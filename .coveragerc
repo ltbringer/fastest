@@ -5,6 +5,7 @@ omit =
     **fastest/code_assets/keywords.py
     **fastest/constants.py
     **fastest/file_handler/**
+    **fastest/test_compiler/test_writer.py
     **mocks**
     test/**
     **logger**
