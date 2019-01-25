@@ -12,23 +12,20 @@ import unittest
 
 class TestNaiveCaseDetectorFormatImports(unittest.TestCase):
     def test__format_imports__9EE38D0EC1(self):
-        input = TestBodies.TEST_STACK_IMPORTS_INPUT
+        input_imports = TestBodies.TEST_STACK_IMPORTS_INPUT
         output = TestBodies.TEST_STACK_IMPORTS_OUTPUT
 
-        self.assertEqual(format_imports(input), output)
+        self.assertEqual(format_imports(input_imports), output)
 
 
 class TestNaiveCaseDetectorGetImportsFromDocstring(unittest.TestCase):
     def test__get_imports_from_docstring__0A97C6C157(self):
         example_passage = TestBodies.EXAMPLE_WITH_IMPORTS
         import_statements = TestBodies.TEST_IMPORT_EXTRACTION
-        empty_example_passage = ''
 
         self.assertEqual(get_imports_from_docstring(example_passage), import_statements)
 
     def test__get_imports_from_docstring__6714B5906D(self):
-        example_passage = TestBodies.EXAMPLE_WITH_IMPORTS
-        import_statements = TestBodies.TEST_IMPORT_EXTRACTION
         empty_example_passage = ''
 
         self.assertEqual(get_imports_from_docstring(empty_example_passage), [])
@@ -36,15 +33,12 @@ class TestNaiveCaseDetectorGetImportsFromDocstring(unittest.TestCase):
 
 class TestNaiveCaseDetectorGetVariablesFromDocstring(unittest.TestCase):
     def test__get_variables_from_docstring__AEB1E37830(self):
-        example_passage = TestBodies.TEST_VARIABLES_FROM_DOCSTRING
         empty_example_passage = ''
-        expected_output = TestBodies.TEST_VARIABLES_FROM_DOCSTRING_RESULT
 
         self.assertEqual(get_variables_from_docstring(empty_example_passage), '')
 
     def test__get_variables_from_docstring__B3CB6ACE59(self):
         example_passage = TestBodies.TEST_VARIABLES_FROM_DOCSTRING
-        empty_example_passage = ''
         expected_output = TestBodies.TEST_VARIABLES_FROM_DOCSTRING_RESULT
 
         self.assertEqual(get_variables_from_docstring(example_passage), expected_output)
@@ -52,20 +46,15 @@ class TestNaiveCaseDetectorGetVariablesFromDocstring(unittest.TestCase):
 
 class TestNaiveCaseDetectorStackExamples(unittest.TestCase):
     def test__stack_examples__E99E139CF4(self):
-        example_strings = TestBodies.STACK_EXAMPLES_TEST
-
         self.assertEqual(stack_examples(''), [])
 
     def test__stack_examples__77FB0AEFA4(self):
         example_strings = TestBodies.STACK_EXAMPLES_TEST
-
         self.assertEqual(stack_examples(example_strings), [{'expect': '25', 'from': 'square(5)'}])
 
 
 class TestNaiveCaseDetectorGetParamsFromDocstring(unittest.TestCase):
     def test__get_params_from_docstring__75FCBBAE6C(self):
-        statements = TestBodies.GET_PARAMS_FROM_DOCSTRING_TEST
-
         self.assertEqual(get_params_from_docstring(''), [])
 
     def test__get_params_from_docstring__D01A5D4D7A(self):
@@ -76,8 +65,6 @@ class TestNaiveCaseDetectorGetParamsFromDocstring(unittest.TestCase):
 
 class TestNaiveCaseDetectorGetReturnFromDocstring(unittest.TestCase):
     def test__get_return_from_docstring__C55EDAEA80(self):
-        statements = TestBodies.RETURN_TYPE_TEST
-
         self.assertEqual(get_return_from_docstring(''), None)
 
     def test__get_return_from_docstring__3AFD7DDF98(self):
@@ -100,11 +87,9 @@ class TestNaiveCaseDetectorGetTestFromExamplePassage(unittest.TestCase):
         self.assertEqual(get_test_from_example_passage(statements), TestBodies.NAIVE_CASE_TEST_RESULT)
 
     def test__get_test_from_example_passage__D2A0AD99BE(self):
-        statements = TestBodies.NAIVE_CASE_TEST_STATEMENT
 
         self.assertEqual(get_test_from_example_passage(None), None)
 
     def test__get_test_from_example_passage__4A60B432CB(self):
-        statements = TestBodies.NAIVE_CASE_TEST_STATEMENT
 
         self.assertEqual(get_test_from_example_passage('lorem ipsum'), None)

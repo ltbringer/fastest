@@ -34,7 +34,6 @@ def get_empty_of_type(input_type):
         'dict': '{}'
     }
 
-    type_list = list(empty_type.keys())
     return empty_type.get(input_type)
 
 

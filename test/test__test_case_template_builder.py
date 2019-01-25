@@ -77,12 +77,6 @@ class TestTestCaseTemplateBuilderIsTypeTestReady(unittest.TestCase):
 
     def test__is_type_test_ready__732B88EE66(self):
         self.assertIsInstance(is_type_test_ready({}, []), bool)
-        function_object_1 = {
-            'tests': {
-                'return': 'str'
-            }
-        }
-
         function_object_2 = {'tests': {}}
 
         params = ['str', 'str']
@@ -113,12 +107,6 @@ class TestTestCaseTemplateBuilderCreateAssertionTest(unittest.TestCase):
 
     def test__create_assertion_test__6F2E61E99C(self):
         self.assertIsInstance(create_assertion_test({}), str)
-        function_object_1 = {
-            'tests': {
-                'variables': ['a = 5']
-            }
-        }
-
         function_object_2 = {'tests': {'variables': []}}
 
         self.assertEqual(create_assertion_test(function_object_2), '')

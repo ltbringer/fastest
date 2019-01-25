@@ -87,7 +87,7 @@ def function_1():
     RETURN_TYPE_TEST = """
     :return: int
     """
-    TEST_EXAMPLE_PASSAGE = """ 
+    TEST_EXAMPLE_PASSAGE = """
     1) square(4) -> 16
     2) page(20) -> []
     """
