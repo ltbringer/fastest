@@ -29,7 +29,6 @@ def get_functions(page):
     page = TestBodies.GET_FUNCTIONS_TEST_CASE_1
     @end
 
-
     1) get_functions(page) -> TestBodies.GET_FUNCTIONS_TEST_CASE_1_EXPECT
     ------
     :param page: str

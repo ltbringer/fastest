@@ -33,6 +33,8 @@ def get_empty_of_type(input_type):
         'list': '[]',
         'dict': '{}'
     }
+
+    type_list = list(empty_type.keys())
     return empty_type.get(input_type)
 
 
@@ -40,19 +42,17 @@ def get_params_list(params):
     """
     ----
     examples:
+
     1) get_params_list(['str', 'str', 'list', 'dict']) -> ["''", "''", '[]', '{}']
     2) get_params_list(['str', '???']) -> ["''"]
     ----
-    :param params: []
-    :return: []
+    :param params: list
+    :return: list
     """
-    params = [
+    return [
         get_empty_of_type(param)
         for param in params
-    ]
-    return [
-        param for param in params
-        if param is not None
+        if param in ['str', 'int', 'list', 'dict']
     ]
 
 
@@ -73,7 +73,6 @@ def create_type_test_case(function_object, params):
         },
         'name': 'function_1'
     }
-
     params = ['str', 'str']
     @end
 
@@ -83,9 +82,9 @@ def create_type_test_case(function_object, params):
     :param params: list
     :return: str
     """
-    empty_param_call = '{}({})'.format(function_object[Keys.NAME], ', '.join(params))
+    empty_param_call = '{}({})'.format(function_object.get(Keys.NAME), ', '.join(params))
     return Content.TYPE_ASSERT_TEMPLATE.format(
-        function=empty_param_call, value=function_object[Keys.TESTS][Keys.RETURN]
+        function=empty_param_call, value=function_object.get(Keys.TESTS, {}).get(Keys.RETURN)
     )
 
 
@@ -182,8 +181,8 @@ def create_assertion_test(function_object):
     :return: str
     """
     template = ''
-    if function_object[Keys.TESTS][Keys.VARIABLES]:
-        for variable in function_object[Keys.TESTS][Keys.VARIABLES]:
+    if function_object.get(Keys.TESTS, {}).get(Keys.VARIABLES):
+        for variable in function_object.get(Keys.TESTS, {}).get(Keys.VARIABLES, []):
             template += Content.VARIABLES_TEMPLATE.format(variables=variable)
     return template
 
@@ -223,13 +222,13 @@ def create_naive_test_case(function_object, test, test_id=None):
     :return: str
     """
     test_template = Content.TEST_CASE_TEMPLATE.format(
-        function_name=function_object[Keys.NAME],
+        function_name=function_object.get(Keys.NAME),
         case_id=case_generator(test_id),
     )
 
-    params = get_params_list(function_object)
+    params = get_params_list(function_object.get(Keys.TESTS, {}).get(Keys.PARAMS, []))
 
     test_template += create_type_test_case_if_params(function_object, params)
     test_template += create_assertion_test(function_object)
-    test_template += Content.ASSERTION_TEMPLATE.format(function=test[Keys.FROM], value=test[Keys.EXPECT])
+    test_template += Content.ASSERTION_TEMPLATE.format(function=test.get(Keys.FROM), value=test.get(Keys.EXPECT))
     return test_template

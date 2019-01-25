@@ -67,19 +67,11 @@ class TestFIsTypeTestReady(unittest.TestCase):
             }
         }
 
-        function_object_2 = {'tests': {}}
-
         params = ['str', 'str']
 
         self.assertEqual(is_type_test_ready(function_object_1, params), True)
 
     def test__is_type_test_ready__6CF6127E76(self):
-        function_object_1 = {
-            'tests': {
-                'return': 'str'
-            }
-        }
-
         function_object_2 = {'tests': {}}
 
         params = ['str', 'str']
@@ -93,10 +85,6 @@ class TestFIsTypeTestReady(unittest.TestCase):
             }
         }
 
-        function_object_2 = {'tests': {}}
-
-        params = ['str', 'str']
-
         self.assertEqual(is_type_test_ready(function_object_1, []), False)
 
 
@@ -108,22 +96,10 @@ class TestFCreateAssertionTest(unittest.TestCase):
             }
         }
 
-        function_object_2 = {'tests': {'variables': []}}
-
-        params = ['str', 'str']
-
         self.assertEqual(create_assertion_test(function_object_1), TestBodies.ASSERTION_TEST_1)
 
     def test__create_assertion_test__AE86DA16B8(self):
-        function_object_1 = {
-            'tests': {
-                'variables': ['a = 5']
-            }
-        }
-
         function_object_2 = {'tests': {'variables': []}}
-
-        params = ['str', 'str']
 
         self.assertEqual(create_assertion_test(function_object_2), '')
 
