@@ -1,6 +1,4 @@
-import os
-from fastest.bodies import test_case_template_builder
-from fastest.constants import Content, Keys, Sys
+from fastest.constants import Content, Keys
 from fastest.utils import to_camel_case
 
 

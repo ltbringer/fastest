@@ -71,8 +71,6 @@ class TestTestCaseTemplateBuilderIsTypeTestReady(unittest.TestCase):
             }
         }
 
-        function_object_2 = {'tests': {}}
-
         params = ['str', 'str']
 
         self.assertEqual(is_type_test_ready(function_object_1, params), True)
@@ -99,10 +97,6 @@ class TestTestCaseTemplateBuilderIsTypeTestReady(unittest.TestCase):
             }
         }
 
-        function_object_2 = {'tests': {}}
-
-        params = ['str', 'str']
-
         self.assertEqual(is_type_test_ready(function_object_1, []), False)
 
 
@@ -115,10 +109,6 @@ class TestTestCaseTemplateBuilderCreateAssertionTest(unittest.TestCase):
             }
         }
 
-        function_object_2 = {'tests': {'variables': []}}
-
-        params = ['str', 'str']
-
         self.assertEqual(create_assertion_test(function_object_1), TestBodies.ASSERTION_TEST_1)
 
     def test__create_assertion_test__6F2E61E99C(self):
@@ -130,8 +120,6 @@ class TestTestCaseTemplateBuilderCreateAssertionTest(unittest.TestCase):
         }
 
         function_object_2 = {'tests': {'variables': []}}
-
-        params = ['str', 'str']
 
         self.assertEqual(create_assertion_test(function_object_2), '')
 

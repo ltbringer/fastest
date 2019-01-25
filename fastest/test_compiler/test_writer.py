@@ -1,6 +1,7 @@
 import os
 from fastest.constants import Keys, Sys
-from fastest.test_compiler.compile_tests import test_case_template_builder, add_imports_for_test_case, create_test_class
+from fastest.test_compiler.compile_tests import add_imports_for_test_case, create_test_class
+from fastest.bodies.test_case_template_builder import create_naive_test_case
 
 
 def create_test_case_content(function_object, imports, contents):
@@ -11,7 +12,7 @@ def create_test_case_content(function_object, imports, contents):
     :return: tuple
     """
     for example in function_object[Keys.TESTS][Keys.EXAMPLES]:
-        contents.append(test_case_template_builder.create_naive_test_case(function_object, example))
+        contents.append(create_naive_test_case(function_object, example))
 
     imports = add_imports_for_test_case(function_object[Keys.TESTS], imports)
     return imports, contents
@@ -22,7 +23,7 @@ def create_test_case(function_objects, deps_import, root_module_name):
     contents = []
 
     for function_object in function_objects:
-        if type(function_object) is not dict:
+        if not isinstance(function_object, dict):
             continue
         if function_object[Keys.TESTS] is None:
             continue
