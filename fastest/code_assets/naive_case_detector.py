@@ -108,15 +108,18 @@ def stack_examples(examples_strings):
     :return: list
     """
     example_stack = []
-    for example in examples_strings:
-        test_function, expectation = re.sub(Patterns.NUMBER_BULLET, '', example, 1)\
-            .rsplit(Patterns.TEST_SEP, 1)
+    try:
+        for example in examples_strings:
+            test_function, expectation = re.sub(Patterns.NUMBER_BULLET, '', example, 1)\
+                .rsplit(Patterns.TEST_SEP, 1)
 
-        example_stack.append({
-            Keys.FROM: test_function,
-            Keys.EXPECT: expectation
-        })
-    return example_stack
+            example_stack.append({
+                Keys.FROM: test_function,
+                Keys.EXPECT: expectation
+            })
+        return example_stack
+    except ValueError as ve:
+        return []
 
 
 def get_params_from_docstring(statements):
