@@ -1,1 +1,1 @@
-from logger import logger
+from fastest.logger import logger
