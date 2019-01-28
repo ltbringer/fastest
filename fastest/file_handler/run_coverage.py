@@ -1,5 +1,5 @@
 import subprocess
-from logger.logger import logger
+from fastest.logger.logger import logger
 
 
 def execute_coverage(report_path):
