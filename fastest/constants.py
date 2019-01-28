@@ -172,3 +172,5 @@ def function_1():
                           '']
         }
     }
+    PAGE_WITH_SYNTAX_ERRORS = 'def f('
+    SEPARATOR_ERR_EXAMPLE = ''
