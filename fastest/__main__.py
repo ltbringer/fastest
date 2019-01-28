@@ -7,7 +7,7 @@ from fastest.code_assets.function import get_functions
 from fastest.test_compiler import test_writer
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
-from logger.logger import logger
+from fastest.logger.logger import logger
 from fastest.cli.args import cli_args
 from fastest.file_handler import make_test_module, execute_coverage, \
     execute_tests, is_path_to_be_ignored
