@@ -1,5 +1,6 @@
 import ast
 from fastest.code_assets.naive_case_detector import get_test_from_example_passage
+from fastest.logger.logger import logger
 
 
 def get_functions_from_node(node):
@@ -27,15 +28,22 @@ def get_functions(page):
 
     @let
     page = TestBodies.GET_FUNCTIONS_TEST_CASE_1
+    page_with_syntax_error = TestBodies.PAGE_WITH_SYNTAX_ERRORS
     @end
 
     1) get_functions(page) -> TestBodies.GET_FUNCTIONS_TEST_CASE_1_EXPECT
+    2) get_functions(page_with_syntax_error) -> []
     ------
     :param page: str
     :return: list
     """
-    node = ast.parse(page)
-    functions = get_functions_from_node(node)
-    classes = [n for n in node.body if isinstance(n, ast.ClassDef)]
-    methods = [get_functions_from_node(class_) for class_ in classes]
-    return functions + methods
+    try:
+        node = ast.parse(page)
+        functions = get_functions_from_node(node)
+        classes = [n for n in node.body if isinstance(n, ast.ClassDef)]
+        methods = [get_functions_from_node(class_) for class_ in classes]
+        return functions + methods
+    except SyntaxError as error:
+        logger.error(error)
+        return []
+
