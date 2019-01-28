@@ -1,5 +1,6 @@
 import re
 from fastest.constants import Keys, Patterns
+from fastest.logger.logger import logger
 
 
 FUNCTION_CALL = 0
@@ -103,23 +104,25 @@ def stack_examples(examples_strings):
 
     1) stack_examples('') -> []
     2) stack_examples(example_strings) -> [{'expect': '25', 'from': 'square(5)'}]
+    3) stack_examples(['1) func_do_work()']) -> []
     ----
     :param examples_strings: list
     :return: list
     """
     example_stack = []
-    try:
-        for example in examples_strings:
-            test_function, expectation = re.sub(Patterns.NUMBER_BULLET, '', example, 1)\
-                .rsplit(Patterns.TEST_SEP, 1)
+    for example in examples_strings:
+        function_call_array = re.sub(Patterns.NUMBER_BULLET, '', example, 1)\
+            .rsplit(Patterns.TEST_SEP, 1)
+        if len(function_call_array) != 2:
+            return []
 
-            example_stack.append({
-                Keys.FROM: test_function,
-                Keys.EXPECT: expectation
-            })
-        return example_stack
-    except ValueError as ve:
-        return []
+        test_function, expectation = function_call_array
+
+        example_stack.append({
+            Keys.FROM: test_function,
+            Keys.EXPECT: expectation
+        })
+    return example_stack
 
 
 def get_params_from_docstring(statements):
