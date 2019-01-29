@@ -1,4 +1,6 @@
 import subprocess
+import os
+import pathlib
 from fastest.logger.logger import logger
 
 
@@ -11,4 +13,5 @@ def execute_coverage(report_path):
     """
     subprocess.call(['coverage', 'report'])
     subprocess.call(['coverage', 'html'])
-    logger.info('Check coverage: ' + report_path)
+    coverage_path = os.path.join(report_path, 'htmlcov', 'index.html')
+    logger.info(pathlib.Path(coverage_path).as_uri())
