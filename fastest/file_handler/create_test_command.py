@@ -41,6 +41,5 @@ def test_command(source):
     :return: list
     """
     test_files = get_test_files()
-    source_present_command = ['coverage', 'run', '--source', source, '-m', 'unittest'] + test_files
-    source_missing_command = ['coverage', 'run', '-m', 'unittest'] + test_files
-    return source_missing_command if source is None else source_present_command
+    command = ['pytest', '--cov', source] if source is not None else ['pytest', '--cov']
+    return command
