@@ -40,6 +40,5 @@ def test_command(source):
     :param source: str|None
     :return: list
     """
-    test_files = get_test_files()
     command = ['pytest', '--cov', source] if source is not None else ['pytest', '--cov']
     return command
