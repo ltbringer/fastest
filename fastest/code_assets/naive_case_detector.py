@@ -2,7 +2,6 @@ import re
 from fastest.constants import Keys, Patterns
 from fastest.logger.logger import logger
 
-
 FUNCTION_CALL = 0
 OUTPUT = 1
 
@@ -75,15 +74,16 @@ def get_variables_from_docstring(example_passage):
     expected_output = TestBodies.TEST_VARIABLES_FROM_DOCSTRING_RESULT
     @end
 
-    1) get_variables_from_docstring(empty_example_passage) -> ''
+    1) get_variables_from_docstring(empty_example_passage) -> []
     2) get_variables_from_docstring(example_passage) -> expected_output
     ----
     :param example_passage: str
     :return: list
     """
     needed_variables = re.findall(Patterns.NEEDED_VARIABLES, example_passage)
+
     if len(needed_variables) == 0:
-        return ''
+        return []
     needed_variables = needed_variables[0]
     needed_variables = needed_variables.replace('@let', '')
     return needed_variables.split('\n')
@@ -111,7 +111,7 @@ def stack_examples(examples_strings):
     """
     example_stack = []
     for example in examples_strings:
-        function_call_array = re.sub(Patterns.NUMBER_BULLET, '', example, 1)\
+        function_call_array = re.sub(Patterns.NUMBER_BULLET, '', example, 1) \
             .rsplit(Patterns.TEST_SEP, 1)
         if len(function_call_array) != 2:
             return []
@@ -163,14 +163,14 @@ def get_return_from_docstring(statements):
     statements = TestBodies.RETURN_TYPE_TEST
     @end
 
-    1) get_return_from_docstring('') -> None
+    1) get_return_from_docstring('') -> ''
     2) get_return_from_docstring(statements) -> 'int'
     ----
     :param statements: str
     :return: str
     """
     return_statement = re.search(r':return: (.*)', statements)
-    return return_statement.group(1) if return_statement is not None else None
+    return return_statement.group(1) if return_statement is not None else ''
 
 
 def get_test_case_examples(example_passage):
@@ -211,31 +211,31 @@ def get_test_from_example_passage(statements):
     @end
 
     1) get_test_from_example_passage(statements) -> TestBodies.NAIVE_CASE_TEST_RESULT
-    2) get_test_from_example_passage(None) -> None
-    3) get_test_from_example_passage('lorem ipsum') -> None
+    2) get_test_from_example_passage(None) -> {}
+    3) get_test_from_example_passage('lorem ipsum') -> {}
     ----
-    :param statements:
-    :return:
+    :param statements: []
+    :return: dict
     """
     if statements is None:
-        return None
+        return {}
 
     example_passage = re.findall(Patterns.EXAMPLE_PASSAGE, statements, re.I)
     example_passage = example_passage[0] if len(example_passage) > 0 else None
     if example_passage is None:
-        return None
+        return {}
     import_statements = get_imports_from_docstring(example_passage)
     variables = get_variables_from_docstring(example_passage)
     examples = get_test_case_examples(example_passage)
     params = get_params_from_docstring(statements)
     return_statement = get_return_from_docstring(statements)
 
-    return None \
+    return {} \
         if examples is None \
         else {
-            Keys.IMPORTS: import_statements,
-            Keys.VARIABLES: variables,
-            Keys.EXAMPLES: examples,
-            Keys.PARAMS: params,
-            Keys.RETURN: return_statement
-        }
+        Keys.IMPORTS: import_statements,
+        Keys.VARIABLES: variables,
+        Keys.EXAMPLES: examples,
+        Keys.PARAMS: params,
+        Keys.RETURN: return_statement
+    }

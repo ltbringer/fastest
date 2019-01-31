@@ -51,7 +51,7 @@ class TestBodies:
 def function_1():
     return 1
 """
-    GET_FUNCTIONS_TEST_CASE_1_EXPECT = [{'name': 'function_1', 'tests': None}]
+    GET_FUNCTIONS_TEST_CASE_1_EXPECT = [{'name': 'function_1', 'tests': {}}]
     TYPE_TEST_CASE_1 = '\n        self.assertIsInstance(function_1(str, str), str)'
     TYPE_TEST_CASE_2 = '\n        self.assertIsInstance(function_1(str, str), str)'
     ASSERTION_TEST_1 = '        a = 5\n'
