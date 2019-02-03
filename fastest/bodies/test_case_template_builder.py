@@ -1,5 +1,6 @@
 import re
 import uuid
+from pydoc import locate
 from fastest.constants import Keys, Content
 
 
@@ -188,6 +189,23 @@ def create_assertion_test(function_object):
     return template
 
 
+def convert_arg_to_py(arg):
+    """
+    ---
+    1) convert_arg_to_py('None') -> None
+    2) convert_arg_to_py('???') -> '???'
+    3) convert_arg_to_py({}) -> {}
+    ---
+    :param arg:
+    :return:
+    """
+    try:
+        parsed_arg = locate(arg)
+        return arg if parsed_arg is None and arg != 'None' else parsed_arg
+    except Exception:
+        return arg
+
+
 def create_naive_test_case(function_object, test, test_id=None):
     """
     Create test cases from the assertions, docstring params and return types
@@ -219,7 +237,6 @@ def create_naive_test_case(function_object, test, test_id=None):
 
     test_id = 'a55eff11-ed51-ecb37-ccba'
     @end
-
     1) create_naive_test_case(function_object, test, test_id) -> TestBodies.NAIVE_TEST_RESULT
     2) create_naive_test_case(function_object, exception_test, test_id) -> TestBodies.EXCEPTION_TEST_RESULT
     ----
@@ -242,7 +259,7 @@ def create_naive_test_case(function_object, test, test_id=None):
         test_template += Content.ASSERTION_TEMPLATE.format(function=test.get(Keys.FROM), value=test.get(Keys.EXPECT))
     elif test.get(Keys.EXCEPTION):
         args = re.search(r'\((.*)\)', test.get(Keys.FROM))
-        args = [arg.strip() for arg in args.group(1).split(',')]
+        args = [convert_arg_to_py(arg.strip()) for arg in args.group(1).split(',')]
         test_template += Content.EXCEPTION_TEMPLATE.format(
             function=function_object.get(Keys.NAME),
             value=test.get(Keys.EXCEPTION),

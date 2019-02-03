@@ -33,7 +33,7 @@ class Content:
     VARIABLES_TEMPLATE = '        {variables}\n'
     TYPE_ASSERT_TEMPLATE = '\n        self.assertIsInstance({function}, {value})'
     ASSERTION_TEMPLATE = '\n        self.assertEqual({function}, {value})\n'
-    EXCEPTION_TEMPLATE = '\n        self.assertRaises({value}, {function}, {args})\n\n'
+    EXCEPTION_TEMPLATE = '\n        self.assertRaises({value}, {function}, *{args})\n\n'
 
 
 class Patterns:
@@ -62,7 +62,7 @@ def function_1():
         self.assertEqual(function_1, 2)\n"""
     EXCEPTION_TEST_RESULT = """    def test__function_1__A55EFF11ED(self):        a = 5
 
-        self.assertRaises(TypeError, function_1, ['None'])\n
+        self.assertRaises(TypeError, function_1, *[None])\n
 """
     TEST_STACK_IMPORTS_OUTPUT = ['from datetime import datetime\n', 'import numpy as np\n']
     TEST_STACK_IMPORTS_INPUT = ['from datetime import datetime  ', ' import numpy as np ']

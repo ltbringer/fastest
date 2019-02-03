@@ -25,9 +25,9 @@ def add_imports_for_test_case(test, imports):
     :param imports: set
     :return: set
     """
-    if test[Keys.IMPORTS] is None:
+    if test.get(Keys.IMPORTS) is None:
         return imports
-    for import_statement in test[Keys.IMPORTS]:
+    for import_statement in test.get(Keys.IMPORTS):
         imports.add(import_statement)
     return imports
 
@@ -59,9 +59,9 @@ def create_test_class(imports, contents, deps_import, function_object, root_modu
     :return: tuple
     """
     imports.add(Content.IMPORT_UNITTEST)
-    imports.add(Content.DEPS_IMPORT_TEMPLATE.format(deps_import, function_object[Keys.NAME]))
+    imports.add(Content.DEPS_IMPORT_TEMPLATE.format(deps_import, function_object.get(Keys.NAME)))
     camel_cased_root_module_name = to_camel_case(root_module_name)
-    camel_cased_function_name = to_camel_case(function_object[Keys.NAME])
+    camel_cased_function_name = to_camel_case(function_object.get(Keys.NAME, ''))
     contents.append(Content.CLASS_CREATE_TEMPLATE.format(
         camel_cased_root_module_name, camel_cased_function_name
     ))

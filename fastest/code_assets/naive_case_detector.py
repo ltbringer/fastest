@@ -85,7 +85,7 @@ def get_imports_from_docstring(example_passage):
     @end
 
     1) get_imports_from_docstring(example_passage) -> import_statements
-    1) get_imports_from_docstring(empty_example_passage) -> []
+    2) get_imports_from_docstring(empty_example_passage) -> []
     ----
     :param example_passage: str
     :return: list
