@@ -1,6 +1,6 @@
 import re
 from fastest.constants import Keys, Patterns
-from fastest.logger.logger import logger
+
 
 FUNCTION_CALL = 0
 OUTPUT = 1
