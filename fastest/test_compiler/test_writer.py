@@ -11,7 +11,7 @@ def create_test_case_content(function_object, imports, contents):
     :param contents: list
     :return: tuple
     """
-    for example in function_object[Keys.TESTS][Keys.EXAMPLES]:
+    for example in function_object.get(Keys.TESTS, {}).get(Keys.EXAMPLES, []):
         contents.append(create_naive_test_case(function_object, example))
 
     imports = add_imports_for_test_case(function_object[Keys.TESTS], imports)
