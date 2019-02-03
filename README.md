@@ -131,6 +131,22 @@ def add(x, y):
         return str1 + str2
     ``` 
     Fastest will create a `assertInstanceIs(chain_strings('', ''), str)` for the above snippet.
+ 5. To create an `assertRaises` test-case:
+     ```python
+    def crashes_sometimes(input_string):
+        """
+        ----
+        examples: 
+    
+        !! crashes_sometimes(None) -> ValueError
+        ----
+        """
+        if not input_string:
+            raise ValueError
+        return input_string
+     ```
+    The syntax marked with `!! crashes_sometimes(None) -> ValueError` handles exceptions
+    that the code throws
 
 # Goals for Fastest
 - [x] Help maintaining tests, code-coverage and documentation.
