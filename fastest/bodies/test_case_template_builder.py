@@ -1,3 +1,4 @@
+import re
 import uuid
 from fastest.constants import Keys, Content
 
@@ -31,7 +32,8 @@ def get_empty_of_type(input_type):
         'str': '\'\'',
         'int': '0',
         'list': '[]',
-        'dict': '{}'
+        'dict': '{}',
+        '': '\'\''
     }
 
     return empty_type.get(input_type)
@@ -210,10 +212,16 @@ def create_naive_test_case(function_object, test, test_id=None):
         'expect': '2'
     }
 
+    exception_test = {
+        'from': 'function_2(None)',
+        'exception': 'TypeError'
+    }
+
     test_id = 'a55eff11-ed51-ecb37-ccba'
     @end
 
     1) create_naive_test_case(function_object, test, test_id) -> TestBodies.NAIVE_TEST_RESULT
+    2) create_naive_test_case(function_object, exception_test, test_id) -> TestBodies.EXCEPTION_TEST_RESULT
     ----
     :param function_object: dict
     :param test: dict
@@ -229,5 +237,15 @@ def create_naive_test_case(function_object, test, test_id=None):
 
     test_template += create_type_test_case_if_params(function_object, params)
     test_template += create_assertion_test(function_object)
-    test_template += Content.ASSERTION_TEMPLATE.format(function=test.get(Keys.FROM), value=test.get(Keys.EXPECT))
+
+    if test.get(Keys.EXPECT):
+        test_template += Content.ASSERTION_TEMPLATE.format(function=test.get(Keys.FROM), value=test.get(Keys.EXPECT))
+    elif test.get(Keys.EXCEPTION):
+        args = re.search(r'\((.*)\)', test.get(Keys.FROM))
+        args = [arg.strip() for arg in args.group(1).split(',')]
+        test_template += Content.EXCEPTION_TEMPLATE.format(
+            function=function_object.get(Keys.NAME),
+            value=test.get(Keys.EXCEPTION),
+            args=args
+        )
     return test_template

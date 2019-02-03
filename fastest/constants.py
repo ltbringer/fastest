@@ -21,6 +21,7 @@ class Keys:
     VARIABLES = 'variables'
     PARAMS = 'params'
     RETURN = 'return'
+    EXCEPTION = 'exception'
 
 
 class Content:
@@ -32,6 +33,7 @@ class Content:
     VARIABLES_TEMPLATE = '        {variables}\n'
     TYPE_ASSERT_TEMPLATE = '\n        self.assertIsInstance({function}, {value})'
     ASSERTION_TEMPLATE = '\n        self.assertEqual({function}, {value})\n'
+    EXCEPTION_TEMPLATE = '\n        self.assertRaises({value}, {function}, {args})\n\n'
 
 
 class Patterns:
@@ -44,7 +46,7 @@ class Patterns:
     TEST_CASE_EXAMPLE = r'\d\) [\s\S]+?(?=\n)'
     EXAMPLE_PASSAGE = r'-{3,}[\s\S]+?(?=---)'
     TEST_SEP = ' -> '
-
+    EXCEPTION_CASE_EXAMPLE = r'!! [\s\S]+?(?=\n)'
 
 class TestBodies:
     GET_FUNCTIONS_TEST_CASE_1 = """
@@ -58,6 +60,10 @@ def function_1():
     NAIVE_TEST_RESULT = """    def test__function_1__A55EFF11ED(self):        a = 5
 
         self.assertEqual(function_1, 2)\n"""
+    EXCEPTION_TEST_RESULT = """    def test__function_1__A55EFF11ED(self):        a = 5
+
+        self.assertRaises(TypeError, function_1, ['None'])\n
+"""
     TEST_STACK_IMPORTS_OUTPUT = ['from datetime import datetime\n', 'import numpy as np\n']
     TEST_STACK_IMPORTS_INPUT = ['from datetime import datetime  ', ' import numpy as np ']
     EXAMPLE_WITH_IMPORTS = """
@@ -174,3 +180,9 @@ def function_1():
     }
     PAGE_WITH_SYNTAX_ERRORS = 'def f('
     SEPARATOR_ERR_EXAMPLE = ''
+    EXCEPTION_EXAMPLE_HAPPY_CASE = '!! exception_fn(None) -> TypeError\n'
+    EXCEPTION_EXAMPLE_SEP_MISSING = '!! func_do_work(None)\n'
+    EXCEPTION_HAPPY_CASE_OUTPUT = [{
+        'from': 'exception_fn(None)',
+        'exception': 'TypeError'
+    }]

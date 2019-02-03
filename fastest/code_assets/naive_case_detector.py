@@ -15,10 +15,10 @@ def format_imports(import_statements):
     @end
 
     @let
-    input = TestBodies.TEST_STACK_IMPORTS_INPUT
+    import_input = TestBodies.TEST_STACK_IMPORTS_INPUT
     output = TestBodies.TEST_STACK_IMPORTS_OUTPUT
     @end
-    1) format_imports(input) -> output
+    1) format_imports(import_input) -> output
     -----
     :param import_statements: list
     :return: list
@@ -28,6 +28,45 @@ def format_imports(import_statements):
         for import_statement in import_statements
         if len(import_statement) > 0
     ]
+
+
+def get_exception_case_from_examples(example_strings):
+    """
+    ---
+    examples:
+
+    @need
+    from fastest.constants import TestBodies
+    @end
+
+    @let
+    exception_example_happy_case = TestBodies.EXCEPTION_EXAMPLE_HAPPY_CASE
+    exception_example_sep_missing = TestBodies.EXCEPTION_EXAMPLE_SEP_MISSING
+    happy_case_output = TestBodies.EXCEPTION_HAPPY_CASE_OUTPUT
+    @end
+
+    1) get_exception_case_from_examples(exception_example_happy_case) -> happy_case_output
+    2) get_exception_case_from_examples(exception_example_sep_missing) -> []
+    !! get_exception_case_from_examples(None) -> TypeError
+    ---
+    :param example_strings: str
+    :return: list
+    """
+    exception_example_stack = []
+    exception_cases = re.findall(Patterns.EXCEPTION_CASE_EXAMPLE, example_strings, re.M)
+    for example in exception_cases:
+        function_call_array = re.sub(r'!!\s*', '', example, 1) \
+            .rsplit(Patterns.TEST_SEP, 1)
+        if len(function_call_array) != 2:
+            return []
+
+        test_function, expectation = function_call_array
+
+        exception_example_stack.append({
+            Keys.FROM: test_function,
+            Keys.EXCEPTION: expectation
+        })
+    return exception_example_stack
 
 
 def get_imports_from_docstring(example_passage):
@@ -194,7 +233,7 @@ def get_test_case_examples(example_passage):
     """
     examples_strings = re.findall(Patterns.TEST_CASE_EXAMPLE, example_passage, re.M)
     examples_strings = examples_strings if len(examples_strings) > 0 else []
-    return stack_examples(examples_strings)
+    return stack_examples(examples_strings) + get_exception_case_from_examples(example_passage)
 
 
 def get_test_from_example_passage(statements):
