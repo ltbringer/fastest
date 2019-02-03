@@ -47,7 +47,8 @@ def get_exception_case_from_examples(example_strings):
 
     1) get_exception_case_from_examples(exception_example_happy_case) -> happy_case_output
     2) get_exception_case_from_examples(exception_example_sep_missing) -> []
-    !! get_exception_case_from_examples(None) -> TypeError
+
+    !! get_exception_case_from_examples(None) -> Exception
     ---
     :param example_strings: str
     :return: list
