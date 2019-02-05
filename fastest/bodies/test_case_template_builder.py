@@ -1,6 +1,5 @@
 import re
 import uuid
-from pydoc import locate
 from fastest.constants import Keys, Content
 
 
@@ -56,101 +55,6 @@ def get_params_list(params):
         for param in params
         if param in ['str', 'int', 'list', 'dict']
     ]
-
-
-def create_type_test_case(function_object, params):
-    """
-    Create test case for checking types of function
-    -----
-    examples:
-
-    @need
-    from fastest.constants import TestBodies
-    @end
-
-    @let
-    function_object = {
-        'tests': {
-            'return': 'str'
-        },
-        'name': 'function_1'
-    }
-    params = ['str', 'str']
-    @end
-
-    1) create_type_test_case(function_object, params) -> TestBodies.TYPE_TEST_CASE_1
-    -----
-    :param function_object: dict
-    :param params: list
-    :return: str
-    """
-    empty_param_call = '{}({})'.format(function_object.get(Keys.NAME), ', '.join(params))
-    return Content.TYPE_ASSERT_TEMPLATE.format(
-        function=empty_param_call, value=function_object.get(Keys.TESTS, {}).get(Keys.RETURN)
-    )
-
-
-def create_type_test_case_if_params(function_object, params):
-    """
-    Create type test case if there is info over params and return
-    ----
-    examples:
-
-    @need
-    from fastest.constants import TestBodies
-    @end
-
-    @let
-    function_object = {
-        'tests': {
-            'return': 'str'
-        },
-        'name': 'function_1'
-    }
-
-    params = ['str', 'str']
-    @end
-
-    1) create_type_test_case_if_params(function_object, params) -> TestBodies.TYPE_TEST_CASE_2
-    ----
-    :param function_object: dict
-    :param params: list
-    :return: str
-    """
-    return create_type_test_case(function_object, params)\
-        if is_type_test_ready(function_object, params)\
-        else ''
-
-
-def is_type_test_ready(function_object, params):
-    """
-    if a function has params and return type specified, return True
-    else False
-    ----
-    examples:
-
-    @let
-    function_object_1 = {
-        'tests': {
-            'return': 'str'
-        }
-    }
-
-    function_object_2 = {'tests': {}}
-
-    params = ['str', 'str']
-    @end
-
-    1) is_type_test_ready(function_object_1, params) -> True
-    2) is_type_test_ready(function_object_2, params) -> False
-    3) is_type_test_ready(function_object_1, []) -> False
-    ----
-    :param function_object: dict
-    :param params: list
-    :return: bool
-    """
-    return_type = function_object.get(Keys.TESTS, {}).get(Keys.RETURN)
-    return bool(return_type and len(params) > 0)
 
 
 def create_assertion_test(function_object):
@@ -233,9 +137,6 @@ def create_naive_test_case(function_object, test, test_id=None):
         case_id=case_generator(test_id),
     )
 
-    params = get_params_list(function_object.get(Keys.TESTS, {}).get(Keys.PARAMS, []))
-
-    test_template += create_type_test_case_if_params(function_object, params)
     test_template += create_assertion_test(function_object)
 
     if test.get(Keys.EXPECT):
