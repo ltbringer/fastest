@@ -10,3 +10,4 @@ build
 .scrutinizer_token
 *.egg-info/
 .pypirc
+.ipynb_checkpoints/*
