@@ -36,13 +36,13 @@ def get_schema_for_primitive(name, type_of_item):
     ----
     examples:
 
-    1) get_schema_for_primitive('', '') -> None
+    1) get_schema_for_primitive('', '') -> []
     ----
     :param name:
     :param type_of_item:
     :return:
     """
-    return None
+    return []
 
 
 def get_schema_for_list(body, type_of_item):
@@ -53,7 +53,7 @@ def get_schema_for_list(body, type_of_item):
     @let
     schema_object = {
         'inner': [{
-            'inner': None,
+            'inner': [],
             'name': 'key',
             'type': 'int'
         }],
@@ -81,7 +81,7 @@ def get_schema_for_dict(body, type_of_item):
     ----
     examples:
 
-    1) get_schema_for_dict({'key': 1}, 'dict') -> [{'type': 'int', 'inner': None, 'name': 'key'}]
+    1) get_schema_for_dict({'key': 1}, 'dict') -> [{'type': 'int', 'inner': [], 'name': 'key'}]
     ----
     :param body:
     :param type_of_item:
@@ -99,7 +99,7 @@ def get_schema_for(item, type_of_item):
     ----
     examples:
 
-    1) get_schema_for({"key": 1}, 'dict') -> [{'type': 'int', 'inner': None, 'name': 'key'}]
+    1) get_schema_for({"key": 1}, 'dict') -> [{'type': 'int', 'inner': [], 'name': 'key'}]
     ----
     :param item:
     :param type_of_item:
@@ -115,7 +115,7 @@ def make_schema_object(req_body):
 
     @let
     schema_object = {
-        'inner': [{'inner': None, 'name': 'key', 'type': 'int'}],
+        'inner': [{'inner': [], 'name': 'key', 'type': 'int'}],
         'name': '__root__',
         'type': 'dict'
     }
