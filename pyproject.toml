@@ -27,4 +27,5 @@ build-backend = "poetry.masonry.api"
 
 packages = [
     { include="fastest", from="." },
+    { exclude="experiments", from="."}
 ]
