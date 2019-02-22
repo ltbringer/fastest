@@ -20,15 +20,17 @@ def build_one_of_type(item_type, p=1.0):
 
 def schema_to_object_builder(schema, p=1.0):
     mutation = random.random()
-    root_object = build_one_of_type(schema['type'])()
+    type_of_object = schema['type'] if isinstance(schema, dict) else "null"
+    root_object = build_one_of_type(type_of_object, p)()
 
     if isinstance(root_object, list):
         if p > mutation:
-            root_object.append(schema_to_object_builder(schema['inner'], p=p))
+            root_object.append(schema_to_object_builder(schema['inner'], p=mutation))
 
     elif isinstance(root_object, dict):
         for prop in schema['inner']:
             if p > mutation:
-                root_object[prop['name']] = schema_to_object_builder(prop, p=p)
+                root_object[prop['name']] = schema_to_object_builder(prop, p=mutation)
 
     return root_object
+
