@@ -7,7 +7,7 @@ omit =
     **fastest/file_handler/**
     **fastest/test_compiler/test_writer.py
     **fastest/generator/**
-    **fastest/fuzzers/**
+    **fuzzers/**
     **mocks**
     test/**
     **logger**
