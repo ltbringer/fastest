@@ -1,10 +1,10 @@
-from fastest.fuzzers.rest_fuzzer.json_schema import get_schema_for
-from fastest.fuzzers.rest_fuzzer.json_schema import get_schema_for_dict
-from fastest.fuzzers.rest_fuzzer.json_schema import get_schema_for_list
-from fastest.fuzzers.rest_fuzzer.json_schema import get_schema_for_primitive
-from fastest.fuzzers.rest_fuzzer.json_schema import make_schema_object
-from fastest.fuzzers.rest_fuzzer.json_schema import schema_fn
-from fastest.fuzzers.rest_fuzzer.json_schema import type_name
+from fuzzer.rest_fuzzer.json_schema import get_schema_for
+from fuzzer.rest_fuzzer.json_schema import get_schema_for_dict
+from fuzzer.rest_fuzzer.json_schema import get_schema_for_list
+from fuzzer.rest_fuzzer.json_schema import get_schema_for_primitive
+from fuzzer.rest_fuzzer.json_schema import make_schema_object
+from fuzzer.rest_fuzzer.json_schema import schema_fn
+from fuzzer.rest_fuzzer.json_schema import type_name
 import unittest
 
 
