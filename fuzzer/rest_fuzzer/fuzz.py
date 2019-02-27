@@ -1,5 +1,6 @@
 import random
-from fastest.fuzzers.primitive_fuzzer.fuzz import random_integers, random_ascii_chars, random_float
+import requests
+from fuzzer import random_integers, random_ascii_chars, random_float
 
 
 def build_one_of_type(item_type, p=1.0):
@@ -34,3 +35,20 @@ def schema_to_object_builder(schema, p=1.0):
 
     return root_object
 
+
+def rules(host, port, api_list):
+    """
+    api_list = [{
+        "url": "/some/path",
+        "method": "POST",
+        "body": {}
+    }]
+    """
+
+    for api in api_list:
+        requests.request(
+            method=api['method'],
+            url='{host}:{port}{url}'.format(host=host, port=port, url=api['url'])
+        )
+
+    return {}

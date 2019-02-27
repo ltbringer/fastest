@@ -18,6 +18,8 @@ coverage = "^4.5"
 coloredlogs = "^10.0"
 pytest = "^4.2"
 pytest-cov = "^2.6"
+pytrace = "^0.2.4"
+requests = "^2.21"
 
 [tool.poetry.dev-dependencies]
 
