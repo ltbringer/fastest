@@ -24,10 +24,10 @@ def schema_to_object_builder(schema, p=1.0):
     type_of_object = schema['type'] if isinstance(schema, dict) else "null"
     root_object = build_one_of_type(type_of_object, p)()
 
-    if isinstance(root_object, list) and p > mutation:
+    if isinstance(root_object, list) and isinstance(schema, dict) and p > mutation:
             root_object.append(schema_to_object_builder(schema['inner'], p=mutation))
 
-    elif isinstance(root_object, dict):
+    elif isinstance(root_object, dict) and isinstance(schema, dict):
         for prop in schema['inner']:
             if p > mutation:
                 root_object[prop['name']] = schema_to_object_builder(prop, p=mutation)
@@ -60,6 +60,18 @@ def api(host, port, api_object, body_schema):
         )
 
 
-def api_nx(host, port, api_object, body_schema):
-    tests = api_object['tests'] or 1000
-    return [api(host, port, api_object, body_schema) for _ in range(tests)]
+def api_nx(req_spec):
+    host = req_spec.get('host')
+    port = req_spec.get('port')
+    api_object = req_spec.get('req_body')
+    body_schema = req_spec.get('req_body_schema')
+    tests = api_object.get('tests', 1000)
+
+    for _ in range(tests):
+        with open('test_logs.txt', 'a+') as f:
+            r = api(host, port, api_object, body_schema)
+            f.write(
+                "url: {}\nresponse: {}\nstatus_code: {}\n\n".format(
+                    api_object['url'], r.text, r.status_code
+                )
+            )

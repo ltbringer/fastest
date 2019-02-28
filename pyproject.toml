@@ -10,6 +10,7 @@ repository = "https://github.com/AmreshVenugopal/fastest"
 
 [tool.poetry.scripts]
 fastest = "fastest.__main__:main"
+fuzz = "fuzzer.__main__:test_apis"
 
 [tool.poetry.dependencies]
 python = "^3.5"
