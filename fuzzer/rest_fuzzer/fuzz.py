@@ -40,6 +40,7 @@ def api(host, port, api_object, body_schema):
     api_object = {
         "url": "/some/path",
         "method": "POST",
+        "tests": 100,
         "body": {}
     }
     """
@@ -57,3 +58,8 @@ def api(host, port, api_object, body_schema):
             method=api_object['method'],
             url=url
         )
+
+
+def api_nx(host, port, api_object, body_schema):
+    tests = api_object['tests'] or 1000
+    return [api(host, port, api_object, body_schema) for _ in range(tests)]
