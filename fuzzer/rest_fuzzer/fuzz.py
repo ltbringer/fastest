@@ -47,14 +47,15 @@ def api(host, port, api_object, body_schema):
     url = '{host}:{port}{url}'.format(host=host, port=port, url=api_object['url'])
 
     if api_object['method'] in ['POST', 'PUT', 'PATCH']:
-        return requests.request(
+        request_body = schema_to_object_builder(body_schema)
+        return request_body, requests.request(
             method=api_object['method'],
             url=url,
-            json=schema_to_object_builder(body_schema)
+            json=request_body
         )
 
     elif api_object['method'] in ['GET', 'DELETE']:
-        return requests.request(
+        return None, requests.request(
             method=api_object['method'],
             url=url
         )
@@ -69,9 +70,9 @@ def api_nx(req_spec):
 
     for _ in range(tests):
         with open('fuzz.log', 'a+') as f:
-            r = api(host, port, api_object, body_schema)
+            request_body, r = api(host, port, api_object, body_schema)
             f.write(
-                "url: {}\nresponse: {}\nstatus_code: {}\n\n".format(
-                    api_object['url'], r.text, r.status_code
+                "url: {}\nrequest_body: {}\nresponse: {}\nstatus_code: {}\n\n".format(
+                    api_object['url'], request_body,  r.text, r.status_code
                 )
             )

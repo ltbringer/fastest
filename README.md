@@ -148,11 +148,55 @@ def add(x, y):
     The syntax marked with `!! crashes_sometimes(None) -> ValueError` handles exceptions
     that the code throws
 
+## Fuzzing json apis 
+*Note: work in progress*
+
+An experimental feature that can test your api's (currently supporting json request bodies only!). 
+A happy-case example is required and fastest will figure out the rest, it will e-mail the errors to you.
+
+
+*example-case:*
+```js 
+router.post('/test', function(req, res, next) {
+  const { messageObject } = req.body;
+  res.json({ prop: messageObject.message });
+});
+```
+The above is a snippet from an express-server's post request. It expects a `messageObject` within the `req.body`.
+This api returns a response containing `messageObject.message` without ever checking if it is present.
+
+Hate mistakes like these?
+Make sure to check out the [fuzz.log](https://github.com/AmreshVenugopal/fastest/blob/master/fuzz.log).
+
+```text
+url: /test
+request_body: {'messageObject': None}
+response: <!DOCTYPE html><html><head><title></title><link rel="stylesheet" href="/stylesheets/style.css"></head><body><h1>Cannot read property 'message' of null</h1><h2></h2><pre>TypeError: Cannot read property 'message' of null
+    at /home/ltbringer/programming/js/sample-json-api/routes/index.js:11:34
+    at Layer.handle [as handle_request] (/home/ltbringer/programming/js/sample-json-api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/ltbringer/programming/js/sample-json-api/node_modules/express/lib/router/route.js:137:13)
+    at Route.dispatch (/home/ltbringer/programming/js/sample-json-api/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/home/ltbringer/programming/js/sample-json-api/node_modules/express/lib/router/layer.js:95:5)
+    at /home/ltbringer/programming/js/sample-json-api/node_modules/express/lib/router/index.js:281:22
+    at Function.process_params (/home/ltbringer/programming/js/sample-json-api/node_modules/express/lib/router/index.js:335:12)
+    at next (/home/ltbringer/programming/js/sample-json-api/node_modules/express/lib/router/index.js:275:10)
+    at Function.handle (/home/ltbringer/programming/js/sample-json-api/node_modules/express/lib/router/index.js:174:3)
+    at router (/home/ltbringer/programming/js/sample-json-api/node_modules/express/lib/router/index.js:47:12)</pre></body></html>
+status_code: 500
+```
+
+This feature is still under progress because:
+- Signatures that have resulted in errors need to be avoided.
+- A simple to use format in which server request-bodies and other config should be shared is not yet formalized.
+- Error-Grouping: ability to detect when multiple signatures are leading to similar error or affects same area of code is not present.
+- Optimizing happy-case: signatures that don't cause errors and an appropriate response is returned by the server under test, need not be sent back to the server again.
+
+
 # Goals for Fastest
 - [x] Help maintaining tests, code-coverage and documentation.
 - [ ] Help with performance issues within code.
 - [ ] Provide testability score for code.
-- [ ] Test functions for auto-generated inputs where the code would crash.
+- [x] Test functions for auto-generated inputs where the code would crash.
 
 
 Fastest uses itself for creating tests and manages a 100% on the coverage!
