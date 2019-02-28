@@ -1,6 +1,6 @@
 import random
 import requests
-from fuzzer import random_integers, random_ascii_chars, random_float
+from fuzzer.primitive_fuzzer.fuzz import random_integers, random_ascii_chars, random_float
 
 
 def build_one_of_type(item_type, p=1.0):
@@ -24,8 +24,7 @@ def schema_to_object_builder(schema, p=1.0):
     type_of_object = schema['type'] if isinstance(schema, dict) else "null"
     root_object = build_one_of_type(type_of_object, p)()
 
-    if isinstance(root_object, list):
-        if p > mutation:
+    if isinstance(root_object, list) and p > mutation:
             root_object.append(schema_to_object_builder(schema['inner'], p=mutation))
 
     elif isinstance(root_object, dict):
@@ -36,19 +35,25 @@ def schema_to_object_builder(schema, p=1.0):
     return root_object
 
 
-def rules(host, port, api_list):
+def api(host, port, api_object, body_schema):
     """
-    api_list = [{
+    api_object = {
         "url": "/some/path",
         "method": "POST",
         "body": {}
-    }]
+    }
     """
+    url = '{host}:{port}{url}'.format(host=host, port=port, url=api_object['url'])
 
-    for api in api_list:
-        requests.request(
-            method=api['method'],
-            url='{host}:{port}{url}'.format(host=host, port=port, url=api['url'])
+    if api_object['method'] in ['POST', 'PUT', 'PATCH']:
+        return requests.request(
+            method=api_object['method'],
+            url=url,
+            json=schema_to_object_builder(body_schema)
         )
 
-    return {}
+    elif api_object['method'] in ['GET', 'DELETE']:
+        return requests.request(
+            method=api_object['method'],
+            url=url
+        )
