@@ -68,7 +68,7 @@ def api_nx(req_spec):
     tests = api_object.get('tests', 1000)
 
     for _ in range(tests):
-        with open('test_logs.txt', 'a+') as f:
+        with open('fuzz.log', 'a+') as f:
             r = api(host, port, api_object, body_schema)
             f.write(
                 "url: {}\nresponse: {}\nstatus_code: {}\n\n".format(
