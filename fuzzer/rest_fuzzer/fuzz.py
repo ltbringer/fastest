@@ -3,6 +3,9 @@ import requests
 from fuzzer.primitive_fuzzer.fuzz import random_integers, random_ascii_chars, random_float
 
 
+MUTATION_LIMIT = 0.1
+
+
 def build_one_of_type(item_type, p=1.0):
     empty_values_for_types = {
         "str": random_ascii_chars,
@@ -13,24 +16,30 @@ def build_one_of_type(item_type, p=1.0):
         "null": lambda: None
     }
     basic_types = ['str', 'int', 'float', 'list', 'dict', 'null']
-    mutation = random.random()
     return empty_values_for_types[item_type] \
-        if p > mutation \
+        if MUTATION_LIMIT < p \
         else empty_values_for_types[random.choice(basic_types)]
 
 
-def schema_to_object_builder(schema, p=1.0):
-    mutation = random.random()
+def schema_to_object_builder(schema_obj, p=1.0):
+    mutations, schema = schema_obj
+    mutation = mutations if isinstance(mutations, float) else mutations[0]
+
     type_of_object = schema['type'] if isinstance(schema, dict) else "null"
     root_object = build_one_of_type(type_of_object, p)()
 
-    if isinstance(root_object, list) and isinstance(schema, dict) and p > mutation:
-            root_object.append(schema_to_object_builder(schema['inner'], p=mutation))
+    if not isinstance(schema, dict):
+        return root_object
 
-    elif isinstance(root_object, dict) and isinstance(schema, dict):
-        for prop in schema['inner']:
-            if p > mutation:
-                root_object[prop['name']] = schema_to_object_builder(prop, p=mutation)
+    if isinstance(root_object, list):
+        root_object.append(schema_to_object_builder(
+            schema.get('inner', {}),
+            p=schema.get('inner', {})[0]
+        ))
+
+    elif isinstance(root_object, dict):
+        for prop in schema['inner'][1]:
+            root_object[prop['name']] = schema_to_object_builder((schema['inner'][0], prop), p=mutation)
 
     return root_object
 
