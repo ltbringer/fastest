@@ -9,7 +9,6 @@ from fuzzer.rest_fuzzer.json_schema import make_schema_object
 # api_list = cli_args.api_json
 
 # expect like in example:
-#
 server_host = 'http://localhost'
 server_port = 3000
 api_list = [{
@@ -23,6 +22,13 @@ api_list = [{
         'messageObject': {
             'message': 'hello world'
         }
+    }
+}, {
+    'url': '/string-match',
+    'method': 'POST',
+    'body': {
+        'reference': '',
+        'hypothesis': ''
     }
 }]
 
