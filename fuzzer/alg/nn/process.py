@@ -4,6 +4,7 @@ import torch
 
 all_letters = string.ascii_letters + " .,;'"
 n_letters = len(all_letters)
+all_categories = ['error', 'success']
 
 
 def letter_to_index(letter):

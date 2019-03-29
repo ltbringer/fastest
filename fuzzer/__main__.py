@@ -1,5 +1,6 @@
 import multiprocessing
 from fuzzer.cli.args import cli_args
+import random
 from fuzzer.rest_fuzzer import fuzz
 from fuzzer.rest_fuzzer.json_schema import make_schema_object
 
@@ -11,19 +12,17 @@ from fuzzer.rest_fuzzer.json_schema import make_schema_object
 # expect like in example:
 server_host = 'http://localhost'
 server_port = 3000
+# {
+#     'url': '/test',
+#     'method': 'POST',
+#     'body': {
+#         'messageObject': {
+#             'message': 'hello world'
+#         }
+#     }
+# }
+
 api_list = [{
-    'url': '/',
-    'method': 'POST',
-    'body': {}
-}, {
-    'url': '/test',
-    'method': 'POST',
-    'body': {
-        'messageObject': {
-            'message': 'hello world'
-        }
-    }
-}, {
     'url': '/string-match',
     'method': 'POST',
     'body': {
@@ -42,8 +41,11 @@ process_args = [{
 
 
 def test_apis():
-    with multiprocessing.Pool(multiprocessing.cpu_count()) as proc:
-        proc.map(fuzz.api_nx, process_args)
+    # with multiprocessing.Pool(multiprocessing.cpu_count()) as proc:
+    #     proc.map(fuzz.api_nx, process_args)
+    random.shuffle(process_args)
+    for proc_arg in process_args:
+        fuzz.api_nx(proc_arg)
 
 
 if __name__ == '__main__':

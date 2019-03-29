@@ -1,9 +1,12 @@
 import random
 import requests
 from fuzzer.primitive_fuzzer.fuzz import random_integers, random_ascii_chars, random_float
+from fuzzer.alg.nn.train import train as server_response_trainer
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 
-MUTATION_LIMIT = 0.1
+MUTATION_LIMIT = 0.5
 
 
 def build_one_of_type(item_type, p=1.0):
@@ -23,7 +26,8 @@ def build_one_of_type(item_type, p=1.0):
 
 def schema_to_object_builder(schema_obj, p=1.0):
     mutations, schema = schema_obj
-    mutation = mutations if isinstance(mutations, float) else mutations[0]
+    # mutation = mutations if isinstance(mutations, float) else mutations[0]
+    p = mutation = random.random()
 
     type_of_object = schema['type'] if isinstance(schema, dict) else "null"
     root_object = build_one_of_type(type_of_object, p)()
@@ -75,9 +79,14 @@ def api_nx(req_spec):
     port = req_spec.get('port')
     api_object = req_spec.get('req_body')
     body_schema = req_spec.get('req_body_schema')
-    tests = api_object.get('tests', 1000)
+    n_iters = 100000
+    tests = api_object.get('tests', n_iters)
 
-    for _ in range(tests):
+    current_loss = 0
+    all_losses = []
+    plot_every = 1000
+
+    for i in range(tests):
         with open('fuzz.log', 'a+') as f:
             request_body, r = api(host, port, api_object, body_schema)
             f.write(
@@ -85,3 +94,14 @@ def api_nx(req_spec):
                     api_object['url'], request_body,  r.text, r.status_code
                 )
             )
+            input_value = '{} {}'.format(api_object['url'], request_body)
+            output_value = 'error' if r.status_code >= 500 else 'success'
+            loss = server_response_trainer(n_iters, i, input_value, output_value)
+            current_loss += loss
+
+            if i % plot_every == 0:
+                all_losses.append(current_loss / plot_every)
+                current_loss = 0
+
+    plt.figure()
+    plt.plot(all_losses)
